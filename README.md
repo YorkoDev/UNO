@@ -26,6 +26,8 @@ Entregable 1: El archivo del entregable (el principal) es archivos.c el cual pos
 			  carta aleatoria del mazo, y por ultimo una funcion para mostrar por pantalla todas la cartas en alguna
 			  carpeta.
 
+PD: juego.c contiene una función que va del lado de la lógica del juego la hicimos para avanzar un poquitito, pero no hace parte del entregable 1, de todas maneras no creo que moleste.
+
 Intrucciones para compilar y correr: 
 
 Con una terminal abierta donde se encuentran los archivos utilzar el comando "make com" (sin comillas) para compilar,
