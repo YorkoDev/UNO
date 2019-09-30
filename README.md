@@ -2,6 +2,7 @@
 Tarea 1 de SO
 
 Alumno: Gabriel Carmona // Jorge Ludueña
+
 Rol:	201773509-0     // 201773507-4
 
 
