@@ -10,8 +10,10 @@ Notacion de cartas:
 
 Numero: El nombre del archivo es el numero que representa la carta, seguida por su color
 		seguido por su numero de copia (si es la primera o la segunda copioa).
+		
 Los +: Comienzan con un +, seguido por la cantidad a sumar, seguido por el color, en caso
 	   de ser +4, el color sera N  (Negro), y por ultimo su numero de copia.
+	   
 Skip: Comienza con la palabra Skip, seguido por si color y su numero de copia.
 
 Reversa: Comienza con la palabra Rev, seguido por si color y su numero de copia
