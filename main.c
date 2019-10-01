@@ -36,6 +36,7 @@ int main()
 		free(cartas[j]);
 		j++;
 	}
+	free(cartas[j]);
 	free(cartas);
 
 	cartas = obtenercartas("mano2");
@@ -50,6 +51,7 @@ int main()
 		free(cartas[j]);
 		j++;
 	}
+	free(cartas[j]);
 	free(cartas);
 	cartas = obtenercartas("mano3");
 	printf("Cartas en la mano del jugador 3:\n");
@@ -63,6 +65,7 @@ int main()
 		free(cartas[j]);
 		j++;
 	}
+	free(cartas[j]);
 	free(cartas);
 	cartas = obtenercartas("mano4");
 	printf("Cartas en la mano del jugador 4:\n");
@@ -76,6 +79,7 @@ int main()
 		free(cartas[j]);
 		j++;
 	}
+	free(cartas[j]);
 	free(cartas);
 
 	return 0;
