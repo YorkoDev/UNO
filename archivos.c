@@ -59,7 +59,7 @@ char* cartaMazo()
 	struct dirent *dir;
 
 
-	temp2 = (char*)malloc(sizeof(char)*30);
+	temp2 = (char*)malloc(sizeof(char)*11);
 	k = 0;
 	r = rand()%cant_mazo;
 	d = opendir("./mazo");
@@ -281,14 +281,14 @@ char** obtenercartas(char* carpeta)
 		{
 			if(strcmp(".",dir->d_name) != 0 && strcmp("..",dir->d_name) != 0)
 			{
-				cartas[i] = (char*)malloc(sizeof(char)*9);
+				cartas[i] = (char*)malloc(sizeof(char)*11);
 				strcpy(cartas[i],dir->d_name);
 				i++;
 			}
 		}
 	}
 	closedir(d);
-	cartas[i] = (char*)malloc(sizeof(char)*9);
+	cartas[i] = (char*)malloc(sizeof(char)*11);
 	strcpy(cartas[i],"STOP");
 	return cartas;
 }
