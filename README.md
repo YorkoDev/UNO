@@ -32,3 +32,6 @@ Intrucciones para compilar y correr:
 
 Con una terminal abierta donde se encuentran los archivos utilzar el comando "make com" (sin comillas) para compilar,
 luego utilizar el comando "make run" sin comillas para correr el programa.
+
+Una triste historia:
+Un alumnito de mergio una sub brachn alegramente con su branch, todo era risas y alegría hasta que se dio cuenta que mergio la branch con master. Y sus intentos para alegrarlo fallaron terminando en la foto que se encuentra arriba en el github. Y esta es la razón de porque creamos un github completamente nuevo y tiene un solo commit de una.
