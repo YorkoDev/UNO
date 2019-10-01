@@ -81,7 +81,7 @@ char* cartaMazo()
 		}
 		cant_mazo--;
 	}
-	close(d);
+	closedir(d);
 	return temp2;
 }
 
@@ -134,7 +134,7 @@ void iniciar_partida()
 		}
 		cant_mazo--;
 	}
-	close(d);
+	closedir(d);
 }
 
 /*
@@ -287,7 +287,7 @@ char** obtenercartas(char* carpeta)
 			}
 		}
 	}
-	close(d);
+	closedir(d);
 	cartas[i] = (char*)malloc(sizeof(char)*9);
 	strcpy(cartas[i],"STOP");
 	return cartas;
