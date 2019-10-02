@@ -8,8 +8,11 @@ Rol:	201773509-0     // 201773507-4
 Intrucciones para compilar y correr: 
 
 Para compilar utilizar:                                          make com
+
 Para correr utilizar:                                            make run
+
 Para eliminar los archivos creados post compilación y ejecución: make clean
+
 
 Notacion de cartas:
 
