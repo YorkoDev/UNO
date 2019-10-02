@@ -7,8 +7,9 @@ Rol:	201773509-0     // 201773507-4
 
 Intrucciones para compilar y correr: 
 
-	Con una terminal abierta donde se encuentran los archivos utilzar el comando "make com" (sin comillas) para compilar,
-	luego utilizar el comando "make run" sin comillas para correr el programa.
+Para compilar utilizar:                                          make com
+Para correr utilizar:                                            make run
+Para eliminar los archivos creados post compilación y ejecución: make clean
 
 Notacion de cartas:
 
