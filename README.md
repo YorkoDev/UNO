@@ -5,6 +5,10 @@ Alumno: Gabriel Carmona // Jorge Ludueña
 
 Rol:	201773509-0     // 201773507-4
 
+Intrucciones para compilar y correr: 
+
+	Con una terminal abierta donde se encuentran los archivos utilzar el comando "make com" (sin comillas) para compilar,
+	luego utilizar el comando "make run" sin comillas para correr el programa.
 
 Notacion de cartas:
 
@@ -28,10 +32,6 @@ Entregable 1: El archivo del entregable (el principal) es archivos.c el cual pos
 
 PD: juego.c contiene una función que va del lado de la lógica del juego la hicimos para avanzar un poquitito, pero no hace parte del entregable 1, de todas maneras no creo que moleste.
 
-Intrucciones para compilar y correr: 
-
-Con una terminal abierta donde se encuentran los archivos utilzar el comando "make com" (sin comillas) para compilar,
-luego utilizar el comando "make run" sin comillas para correr el programa.
 
 Una triste historia:
 Un alumnito de SO mergio una sub brachn alegramente con su branch, todo era risas y alegría hasta que se dio cuenta que mergio la branch con master. Y sus intentos para alegrarlo fallaron terminando en la foto (ayuda.png) que se encuentra arriba en el github. Y esta es la razón de porque creamos un github completamente nuevo y tiene un solo commit de una.
