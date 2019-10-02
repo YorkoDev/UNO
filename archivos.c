@@ -21,7 +21,7 @@ y crea el archivo correspondiente.
 void crear_carta(char* path)
 {
 	int fpa;
-	fpa = open(path, O_RDWR | O_APPEND | O_CREAT);
+	fpa = open(path, O_CREAT);
 	close(fpa);
 }
 
@@ -200,7 +200,8 @@ void mazo()
 				strcat(num, ".txt");
 				strcpy(path, "mazo/");
 				strcat(path, num);
-				fpa = open(path, O_RDWR | O_APPEND | O_CREAT);
+				fpa = open(path, O_CREAT);
+				
 				close(fpa);
 			}
 
@@ -208,12 +209,12 @@ void mazo()
 		strcpy(path, "mazo/+2");
 		strcat(path, colo);
 		strcat(path, "1.txt");
-		fpa = open(path, O_RDWR | O_APPEND | O_CREAT);
+		fpa = open(path,O_CREAT);
 		close(fpa);
 		strcpy(path, "mazo/+2");
 		strcat(path, colo);
 		strcat(path, "2.txt");
-		fpa = open(path, O_RDWR | O_APPEND | O_CREAT);
+		fpa = open(path, O_CREAT);
 		close(fpa);
 
 
@@ -222,38 +223,38 @@ void mazo()
 		sprintf(temp, "%d", i+1);
 		strcat(temp, ".txt");
 		strcat(path, temp);
-		fpa = open(path, O_RDWR | O_APPEND | O_CREAT);
+		fpa = open(path, O_CREAT);
 		close(fpa);
 
 
 		strcpy(path, "mazo/Rev");
 		strcat(path, colo);
 		strcat(path, "1.txt");
-		fpa = open(path, O_RDWR | O_APPEND | O_CREAT);
+		fpa = open(path, O_CREAT);
 		close(fpa);
 		strcpy(path, "mazo/Rev");
 		strcat(path, colo);
 		strcat(path, "2.txt");
-		fpa = open(path, O_RDWR | O_APPEND | O_CREAT);
+		fpa = open(path, O_CREAT);
 		close(fpa);
 
 
 		strcpy(path, "mazo/Skip");
 		strcat(path, colo);
 		strcat(path, "1.txt");
-		fpa = open(path, O_RDWR | O_APPEND | O_CREAT);
+		fpa = open(path, O_CREAT);
 		close(fpa);
 		strcpy(path, "mazo/Skip");
 		strcat(path, colo);
 		strcat(path, "2.txt");
-		fpa = open(path, O_RDWR | O_APPEND | O_CREAT);
+		fpa = open(path, O_CREAT);
 		close(fpa);
 
 		strcpy(path,"mazo/CCN");
 		sprintf(temp, "%d", i+1);
 		strcat(temp, ".txt");
 		strcat(path, temp);
-		fpa = open(path, O_RDWR | O_APPEND | O_CREAT);
+		fpa = open(path, O_CREAT);
 		close(fpa);
 
 		}
