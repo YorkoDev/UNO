@@ -112,12 +112,18 @@ int main(){
         exit(1);
     }
     
-	int H1aP[2];
-	int H2aP[2];
-	int H3aP[2];
-	int PaH1[2];
-	int PaH2[2];
-	int PaH3[2];
+	int* H1aP;
+	H1aP =(int*)malloc(sizeof(int)*2);
+	int* H2aP;
+	H2aP =(int*)malloc(sizeof(int)*2);
+	int* H3aP;
+	H3aP =(int*)malloc(sizeof(int)*2);
+	int* PaH1;
+	PaH1 =(int*)malloc(sizeof(int)*2);
+	int* PaH2;
+	PaH2 =(int*)malloc(sizeof(int)*2);
+	int* PaH3;
+	PaH3 =(int*)malloc(sizeof(int)*2);
 	char paramandar[100];
 	char pararecibir[100];
 	pipe(H1aP); //H1 a padre
@@ -157,8 +163,8 @@ int main(){
 			write(PaH2[1],turn,strlen(turn)+1);
 			write(PaH3[1],turn,strlen(turn)+1);
 			if(i == 0) printf("Es el turno del papa\n");
-			
 			i = (i + 1)%4;
+			sleep(1);
 			printf("Seguir jugando?\n");
 			printf("[1] Si\n");
 			printf("[2] No\n");
@@ -169,6 +175,13 @@ int main(){
 		write(PaH1[1],turn,strlen(turn)+1);
 		write(PaH2[1],turn,strlen(turn)+1);
 		write(PaH3[1],turn,strlen(turn)+1);
+	
+		close(PaH1[1]);
+		close(PaH2[1]);
+		close(PaH3[1]);
+		close(H1aP[0]);
+		close(H2aP[0]);
+		close(H3aP[0]);
 
 
 	}
@@ -248,6 +261,13 @@ int main(){
 		close(H3aP[1]);
 	}
 	else printf("nandakorewa\n");
+	free(PaH1);
+	free(PaH2);
+	free(PaH3);
+	free(H1aP);
+	free(H2aP);
+	free(H3aP);
 	exit(1);
     return 0;
+
 }
