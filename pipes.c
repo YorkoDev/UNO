@@ -86,6 +86,7 @@ void jugando(){
 	p = getpid();
 	if(p == turnos[0]){
 		char CJTA[11];
+		strcpy(CJTA," ");
 		i = 0;
 		char turn[2];
 		//Cerrando lectura de padre a hijo
@@ -101,6 +102,7 @@ void jugando(){
 		printf("[1] Si\n");
 		printf("[2] No\n");
 		scanf("%s",paramandar);
+		
 		while(strcmp(paramandar,"1")==0){
 			strcpy(turn,"");
 			sprintf(turn,"%d",i);
@@ -110,7 +112,7 @@ void jugando(){
 			if(i == 0){
 				cartas=obtenercartas("mano1");
 				j = 0;
-				printf("Jugador 1: Jugador 4 me jugo %s\n",CJTA);
+				if(strcmp(CJTA," ") != 0) printf("Jugador 1: Jugador 4 me jugo %s\n",CJTA);
 				printf("Jugador 1: Mmmmmmm que carta jugare ahora?\n");
 				while(strcmp(cartas[j],"STOP") != 0){
 					printf("[%d] %s\n",j,cartas[j]);
