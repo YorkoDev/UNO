@@ -1,0 +1,2 @@
+int creacionprocesos();
+void jugando();
