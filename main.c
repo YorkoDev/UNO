@@ -11,76 +11,17 @@
 
 #include "archivos.h"
 #include "juego.h"
-
+#include "pipes.h"
 /*
 un main de prueba para realizar testear las funciones realizadas para este entregable
 */
 
 int main()
 {
-	char** cartas;
-	int j;
 
 	mazo();
 	iniciar_partida();
-	cartas = obtenercartas("mano1");
-
-	printf("Cartas en la mano del jugador 1:\n");
-	j = 0;
-	while(strcmp(cartas[j],"STOP") != 0){
-		printf("%s\n",cartas[j]);
-		j++;
-	}
-	j = 0;
-	while(strcmp(cartas[j],"STOP") != 0){
-		free(cartas[j]);
-		j++;
-	}
-	free(cartas[j]);
-	free(cartas);
-
-	cartas = obtenercartas("mano2");
-	printf("Cartas en la mano del jugador 2:\n");
-	j = 0;
-	while(strcmp(cartas[j],"STOP") != 0){
-		printf("%s\n",cartas[j]);
-		j++;
-	}
-	j = 0;
-	while(strcmp(cartas[j],"STOP") != 0){
-		free(cartas[j]);
-		j++;
-	}
-	free(cartas[j]);
-	free(cartas);
-	cartas = obtenercartas("mano3");
-	printf("Cartas en la mano del jugador 3:\n");
-	j = 0;
-	while(strcmp(cartas[j],"STOP") != 0){
-		printf("%s\n",cartas[j]);
-		j++;
-	}
-	j = 0;
-	while(strcmp(cartas[j],"STOP") != 0){
-		free(cartas[j]);
-		j++;
-	}
-	free(cartas[j]);
-	free(cartas);
-	cartas = obtenercartas("mano4");
-	printf("Cartas en la mano del jugador 4:\n");
-	j = 0;
-	while(strcmp(cartas[j],"STOP") != 0){
-		printf("%s\n",cartas[j]);
-		j++;
-	}
-	j = 0;
-	while(strcmp(cartas[j],"STOP") != 0){
-		free(cartas[j]);
-		j++;
-	}
-	free(cartas[j]);
-	free(cartas);
-
+	
+	jugando();
 	return 0;
 }

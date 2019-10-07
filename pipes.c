@@ -10,6 +10,9 @@
 #include <string.h>
 #include <dirent.h>
 
+#include "pipes.h"
+#include "archivos.h"
+
 int id;
 int turnos[4];
 
@@ -52,66 +55,10 @@ int creacionprocesos(){
     }
 }
 
-
-int main(){
-    int PH[2]; //pipe padre a hijo
-    int HP[2]; //hijo a padre
-
-    char fixed_str[] = "ayuda";
-    char input_str[100];
-
-    int p,i;
-
-    if(pipe(PH) == -1){
-        printf("Creo que algo salio mal\n");
-        exit(1);
-    }
-    if(pipe(HP) == -1){
-        printf("Creo que algo salio mal\n");
-        exit(1);
-    }
-
-    scanf("%s",input_str);
-    p = fork();
-
-    if(p < 0){
-        printf("Fork fallo\n");
-    }
-    else if(p > 0){
-        char concat_str[100];
-
-        close(PH[0]);
-
-        write(PH[1],input_str,strlen(input_str)+1);
-        close(PH[1]);
-
-        wait(NULL);
-
-        close(HP[1]);
-
-        read(HP[0],concat_str,100);
-        printf("Concatenated string %s\n",concat_str);
-        close(HP[0]);
-    }
-    else{
-        close(PH[1]);
-
-        char concat_str[100];
-        read(PH[0],concat_str,100);
-
-        int k = strlen(concat_str);
-        int i;
-        for(i = 0; i < strlen(fixed_str);i++) concat_str[k++] = fixed_str[i];
-        concat_str[k] = '\0';
-        
-        close(HP[0]);
-        close(PH[0]);
-
-        write(HP[1],concat_str,strlen(concat_str)+1);
-        close(HP[1]);
-        exit(1);
-    }
-    
+void jugando(){
+	int p,i;
+    int j;
+	char** cartas;
 	int* H1aP;
 	H1aP =(int*)malloc(sizeof(int)*2);
 	int* H2aP;
@@ -126,6 +73,7 @@ int main(){
 	PaH3 =(int*)malloc(sizeof(int)*2);
 	char paramandar[100];
 	char pararecibir[100];
+	
 	pipe(H1aP); //H1 a padre
 	pipe(H2aP); //H2 a padre
 	pipe(H3aP); //H3 a padre
@@ -134,13 +82,10 @@ int main(){
 	pipe(PaH3); //padre a H3
 	
 	p = creacionprocesos();
-    printf("[");
-    for(p = 0; p < 4-1; p++) printf("%d,",turnos[p]);
-    printf("%d]\n",turnos[p]);
 
 	p = getpid();
 	if(p == turnos[0]){
-		
+		char CJTA[11];
 		i = 0;
 		char turn[2];
 		//Cerrando lectura de padre a hijo
@@ -162,7 +107,41 @@ int main(){
 			write(PaH1[1],turn,strlen(turn)+1);
 			write(PaH2[1],turn,strlen(turn)+1);
 			write(PaH3[1],turn,strlen(turn)+1);
-			if(i == 0) printf("Es el turno del papa\n");
+			if(i == 0){
+				cartas=obtenercartas("mano1");
+				j = 0;
+				printf("Jugador 1: Jugador 4 me jugo %s\n",CJTA);
+				printf("Jugador 1: Mmmmmmm que carta jugare ahora?\n");
+				while(strcmp(cartas[j],"STOP") != 0){
+					printf("[%d] %s\n",j,cartas[j]);
+					j++;
+				}
+				scanf("%d",&j);
+				write(PaH1[1],cartas[j],strlen(cartas[j])+1);
+				j = 0;
+				while(strcmp(cartas[j],"STOP") != 0){
+					free(cartas[j]);
+					j++;
+				}
+				free(cartas[j]);
+				free(cartas);	
+			}
+			else if (i == 1){
+				while((read(H1aP[0],pararecibir,100))<0);
+				printf("Jugador 1: Asi que el Jugador 2 puso un %s... Suerte con eso Jugador 3\n",pararecibir);
+				write(PaH2[1],pararecibir,strlen(pararecibir)+1);
+			}
+			else if (i == 2){
+				while((read(H2aP[0],pararecibir,100))<0);
+				printf("Jugador 1: Asi que el Jugador 3 puso un %s... Suerte con eso Jugador 4\n",pararecibir);
+				write(PaH3[1],pararecibir,strlen(pararecibir)+1);
+
+			}
+			else if (i == 3){
+				while((read(H3aP[0],pararecibir,100))<0);
+				printf("Jugador 1: Asi que el Jugador 4 puso un %s... Suerte con eso Jugador 1, oh cresta soy yo\n",pararecibir);
+				strcpy(CJTA,pararecibir);
+			}
 			i = (i + 1)%4;
 			sleep(1);
 			printf("Seguir jugando?\n");
@@ -186,6 +165,7 @@ int main(){
 
 	}
 	else if(p == turnos[1]){
+		char CJTA[11]; //Carta jugada turno anterior
 		//Cerrando escritura de padre a hijo
 		close(PaH1[1]);
 
@@ -201,16 +181,42 @@ int main(){
 		close(PaH3[1]);
 		close(H2aP[0]);
 		close(H3aP[0]);
+
 		while(1){
 			while((read(PaH1[0],pararecibir,100))<0);
 			if(strcmp(pararecibir,"5")== 0) break;
-			if(strcmp(pararecibir,"1") == 0) printf("Es el turno del hijo 1\n");
+			if(strcmp(pararecibir,"1") == 0){
+                cartas=obtenercartas("mano2");
+				j = 0;
+				printf("Jugador 2: Jugador 1 me jugo %s\n",CJTA);
+				printf("Jugador 2: Mmmmmmm que carta jugare ahora?\n");
+				while(strcmp(cartas[j],"STOP") != 0){
+					printf("[%d] %s\n",j,cartas[j]);
+					j++;
+				}
+				scanf("%d",&j);
+				write(H1aP[1],cartas[j],strlen(cartas[j])+1);
+				j = 0;
+				while(strcmp(cartas[j],"STOP") != 0){
+					free(cartas[j]);
+					j++;
+				}
+				free(cartas[j]);
+				free(cartas);
+            }
+			else if(strcmp(pararecibir,"0") == 0){
+				while((read(PaH1[0],pararecibir,100))<0);
+				printf("Jugador 2: Nani!!!! Asi que jugaste esa carta %s\n",pararecibir);
+				printf("Impresionante\n");
+				strcpy(CJTA,pararecibir);
+			}
 		}
 		close(PaH1[0]);
 		close(H1aP[1]);
 
 	}
 	else if(p == turnos[2]){
+		char CJTA[11]; 
 		//Cerrando escritura de padre a hijo
 		close(PaH2[1]);
 
@@ -230,12 +236,36 @@ int main(){
 		while(1){
 			while((read(PaH2[0],pararecibir,100))<0);
 			if(strcmp(pararecibir,"5")== 0) break;
-			if(strcmp(pararecibir,"2") == 0) printf("Es el turno del hijo 2\n");
+			if(strcmp(pararecibir,"2") == 0){
+				cartas=obtenercartas("mano3");
+				j = 0;
+				printf("Jugador 3: Jugador 2 me jugo %s\n",CJTA);
+				printf("Jugador 3: Mmmmmmm que carta jugare ahora?\n");
+				while(strcmp(cartas[j],"STOP") != 0){
+					printf("[%d] %s\n",j,cartas[j]);
+					j++;
+				}
+				scanf("%d",&j);
+				write(H2aP[1],cartas[j],strlen(cartas[j])+1);
+				j = 0;
+				while(strcmp(cartas[j],"STOP") != 0){
+					free(cartas[j]);
+					j++;
+				}
+				free(cartas[j]);
+				free(cartas);	
+			}
+			else if(strcmp(pararecibir,"1") == 0){
+				while((read(PaH2[0],pararecibir,100))<0);
+				printf("Jugador 3: Nani!!!! Asi que jugaste esa carta %s\n",pararecibir);
+				strcpy(CJTA,pararecibir);
+			}
 		}
 		close(PaH2[0]);
 		close(H2aP[1]);
 	}
 	else if(p == turnos[3]){
+		char CJTA[11]; 
 		//Cerrando escritura de padre a hijo
 		close(PaH3[1]);
 
@@ -255,19 +285,40 @@ int main(){
 		while(1){
 			while((read(PaH3[0],pararecibir,100))<0);
 			if(strcmp(pararecibir,"5")== 0) break;
-			if(strcmp(pararecibir,"3") == 0) printf("Es el turno del hijo 3\n");		
+			if(strcmp(pararecibir,"3") == 0){
+				cartas=obtenercartas("mano4");
+				j = 0;
+				printf("Jugador 4: Jugador 3 me jugo %s\n",CJTA);
+				printf("Jugador 4: Mmmmmmm que carta jugare ahora?\n");
+				while(strcmp(cartas[j],"STOP") != 0){
+					printf("[%d] %s\n",j,cartas[j]);
+					j++;
+				}
+				scanf("%d",&j);
+				write(H3aP[1],cartas[j],strlen(cartas[j])+1);
+				j = 0;
+				while(strcmp(cartas[j],"STOP") != 0){
+					free(cartas[j]);
+					j++;
+				}
+				free(cartas[j]);
+				free(cartas);	
+			}
+			else if(strcmp(pararecibir,"2") == 0){
+				while((read(PaH3[0],pararecibir,100))<0);
+				printf("Jugador 4: Nani!!!! Asi que jugaste esa carta %s\n",pararecibir);
+				strcpy(CJTA,pararecibir);
+			}	
 		}
 		close(PaH3[0]);
 		close(H3aP[1]);
 	}
 	else printf("nandakorewa\n");
+    
 	free(PaH1);
 	free(PaH2);
 	free(PaH3);
 	free(H1aP);
 	free(H2aP);
 	free(H3aP);
-	exit(1);
-    return 0;
-
 }
