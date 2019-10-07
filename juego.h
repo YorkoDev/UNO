@@ -1,1 +1,1 @@
-int puedojugarla(char* carta);
+int puedojugarla(char* carta, char color);

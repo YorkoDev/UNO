@@ -19,7 +19,7 @@ recibe una carta y determina si es que la carta se puede jugar o no.
 pd: por ahora retorna -1 si es que la carta es negra debido a que aun no creamos la funcionalidad con 
 las cartas negras.
 */
-int puedojugarla(char* carta)
+int puedojugarla(char* carta, char color)
 {
 	char temp[30];
 	DIR*d;
@@ -40,60 +40,47 @@ int puedojugarla(char* carta)
 	if(temp[0] == 'S')
 	{
 		if(carta[0] == 'S') return 1;
-
-		else
-		{
-			if(carta[0] == 'R') return carta[3] == temp[4];
-
-			else if(carta[2] != 'N') return carta[2] == temp[4];	
-
-			else{
-				printf("Aca va la variable que tiene el color actual,\n si es que alguien lo cambio con una negra\n" ); 
-				return -1;		
-			}
-		}
+		else if(carta[0] == 'R') return carta[4] == temp[4];
+		else if(carta[1] == '2') return carta[2] == temp[4];
+		else if(carta[2] != 'N') return carta[1] == temp[4];
+		else return 1;
+		
 	}
 
 	else if(temp[0] == 'R')
 	{
 		if(carta[0] == 'R') return 1;
+		else if(carta[0] == 'S') return carta[4] == temp[3];
+		else if(carta[1] == '2') return carta[2] == temp[3];	
+		else if(carta[2] != 'N') return carta[1] == temp[3];
+		else return 1;
+	}
 
-		else
-		{
-			if(carta[0] == 'S') return carta[4] == temp[3];
-				
-
-			else if(carta[0] == '+' && carta[1] == '2') return carta[2] == temp[3];	
-
-			else if(carta[2] != 'N') return carta[2] == temp[3];
-
-			else{
-				printf("Aca va la variable que tiene el color actual,\n si es que alguien lo cambio con una negra\n" ); 
-				return -1;
-			}
-		}
+	else if(temp[1] == '2')
+	{
+		if(carta[1] == '2') return 1;
+		else if(carta[0] == 'S') return carta[4] == temp[2];
+		else if(carta[0] == 'R') return carta[3] == temp[2];	
+		else if(carta[2] != 'N') return carta[1] == temp[2];
+		else return 1;
 	}
 
 
 	else if(temp[2] != 'N')
 	{
-		if(carta[0] == temp[0]) return 1;
-
-		else if (carta[1] == temp[1] && carta[0] != '+') return 1;
-
-		else
-		{
-			if(carta[0] == 'S') return carta[4] == temp[1];
-
-			else if(carta[0] == 'R') return carta[3] == temp[1];
-				
-			else if(carta[0] == '+' && carta[1] == '2') return carta[2] == temp[1];
-
-			else{
-				printf("Aca va la variable que tiene el color actual,\n si es que alguien lo cambio con una negra\n" );
-				return -1;
-			}
-		}
+		if(carta[0] == 'S') return carta[4] == temp[1];
+		else if(carta[0] == 'R') return carta[3] == temp[1];	
+		else if(carta[1] == '2') return carta[2] == temp[1];
+		else if(carta[2] != 'N') return carta[1] == temp[1];
+		else return 1;
 	}
-	else return 1;
+
+	else
+	{
+		if (carta[0]== 'S') return carta[4] == color;
+		else if (carta[0] == 'R') return carta[3] == color;
+		else if(carta[1] == '2') return carta[2] == color;
+		else if (carta[2] != 'N') return carta[1] == color;
+		else return 1;	
+	}
 }
