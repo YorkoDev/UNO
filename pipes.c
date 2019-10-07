@@ -111,22 +111,14 @@ void jugando(){
 			write(PaH3[1],turn,strlen(turn)+1);
 			if(i == 0){
 				cartas=obtenercartas("mano1");
-				j = 0;
+				
 				if(strcmp(CJTA," ") != 0) printf("Jugador 1: Jugador 4 me jugo %s\n",CJTA);
 				printf("Jugador 1: Mmmmmmm que carta jugare ahora?\n");
-				while(strcmp(cartas[j],"STOP") != 0){
-					printf("[%d] %s\n",j,cartas[j]);
-					j++;
-				}
+				print(cartas);
+				
 				scanf("%d",&j);
 				write(PaH1[1],cartas[j],strlen(cartas[j])+1);
-				j = 0;
-				while(strcmp(cartas[j],"STOP") != 0){
-					free(cartas[j]);
-					j++;
-				}
-				free(cartas[j]);
-				free(cartas);	
+				liberarmemoria(cartas);	
 			}
 			else if (i == 1){
 				while((read(H1aP[0],pararecibir,100))<0);
@@ -163,8 +155,6 @@ void jugando(){
 		close(H1aP[0]);
 		close(H2aP[0]);
 		close(H3aP[0]);
-
-
 	}
 	else if(p == turnos[1]){
 		char CJTA[11]; //Carta jugada turno anterior
@@ -189,22 +179,14 @@ void jugando(){
 			if(strcmp(pararecibir,"5")== 0) break;
 			if(strcmp(pararecibir,"1") == 0){
                 cartas=obtenercartas("mano2");
-				j = 0;
+				
 				printf("Jugador 2: Jugador 1 me jugo %s\n",CJTA);
 				printf("Jugador 2: Mmmmmmm que carta jugare ahora?\n");
-				while(strcmp(cartas[j],"STOP") != 0){
-					printf("[%d] %s\n",j,cartas[j]);
-					j++;
-				}
+				print(cartas);
+				
 				scanf("%d",&j);
 				write(H1aP[1],cartas[j],strlen(cartas[j])+1);
-				j = 0;
-				while(strcmp(cartas[j],"STOP") != 0){
-					free(cartas[j]);
-					j++;
-				}
-				free(cartas[j]);
-				free(cartas);
+				liberarmemoria(cartas);
             }
 			else if(strcmp(pararecibir,"0") == 0){
 				while((read(PaH1[0],pararecibir,100))<0);
@@ -240,22 +222,14 @@ void jugando(){
 			if(strcmp(pararecibir,"5")== 0) break;
 			if(strcmp(pararecibir,"2") == 0){
 				cartas=obtenercartas("mano3");
-				j = 0;
+
 				printf("Jugador 3: Jugador 2 me jugo %s\n",CJTA);
 				printf("Jugador 3: Mmmmmmm que carta jugare ahora?\n");
-				while(strcmp(cartas[j],"STOP") != 0){
-					printf("[%d] %s\n",j,cartas[j]);
-					j++;
-				}
+				print(cartas);
+
 				scanf("%d",&j);
 				write(H2aP[1],cartas[j],strlen(cartas[j])+1);
-				j = 0;
-				while(strcmp(cartas[j],"STOP") != 0){
-					free(cartas[j]);
-					j++;
-				}
-				free(cartas[j]);
-				free(cartas);	
+				liberarmemoria(cartas);	
 			}
 			else if(strcmp(pararecibir,"1") == 0){
 				while((read(PaH2[0],pararecibir,100))<0);
@@ -289,22 +263,14 @@ void jugando(){
 			if(strcmp(pararecibir,"5")== 0) break;
 			if(strcmp(pararecibir,"3") == 0){
 				cartas=obtenercartas("mano4");
-				j = 0;
+
 				printf("Jugador 4: Jugador 3 me jugo %s\n",CJTA);
 				printf("Jugador 4: Mmmmmmm que carta jugare ahora?\n");
-				while(strcmp(cartas[j],"STOP") != 0){
-					printf("[%d] %s\n",j,cartas[j]);
-					j++;
-				}
+				print(cartas);
+
 				scanf("%d",&j);
 				write(H3aP[1],cartas[j],strlen(cartas[j])+1);
-				j = 0;
-				while(strcmp(cartas[j],"STOP") != 0){
-					free(cartas[j]);
-					j++;
-				}
-				free(cartas[j]);
-				free(cartas);	
+				liberarmemoria(cartas);
 			}
 			else if(strcmp(pararecibir,"2") == 0){
 				while((read(PaH3[0],pararecibir,100))<0);

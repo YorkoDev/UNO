@@ -6,3 +6,5 @@ void iniciar_partida();
 void robarXCartas(int a, int mano);
 void mazo();
 char** obtenercartas(char* carpeta);
+void print(char** cartas);
+void liberarmemoria(char** cartas);
