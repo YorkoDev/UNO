@@ -35,9 +35,12 @@ Entregable 1: El archivo del entregable (el principal) es archivos.c el cual pos
               carpeta.
 
 Entregable 2: El archivo del entregable (el principal) es pipes.c el cual posee funciones para crear los 3 procesos hijos 
-			  llamada creacionprocesos, y otra funcion llamada jugando la genera todas las pipes (cerrando las partes que 
-			  no se van a usar), y mantiene a los 4 procesos en un loop, permitiendo jugar una carta (sin reglas), por 
-			  turno, entregandole al siguiente proceso, la carta que se le jugo.
+	      llamada creacionprocesos, y otra funcion llamada jugando la genera todas las pipes (cerrando las partes que 
+	      no se van a usar), y mantiene a los 4 procesos en un loop, permitiendo jugar una carta (sin reglas), por 
+	      turno, entregandole al siguiente proceso, la carta que se le jugo.
+	      Se le mostrará por pantalla en cada turno 7 cartas con su número respectivo al lado para jugarlo. OJO: por ahora 
+	      si apreta un número que no aparesca en pantalla no jugará nada y probablemente se caiga el programa (se arreglará para
+	      la siguiente entrega).
 
 PD: juego.c contiene una función que va del lado de la lógica del juego la hicimos para avanzar un poquitito, pero no hace parte del entregable 1, de todas maneras no creo que moleste.
 
