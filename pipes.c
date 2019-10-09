@@ -59,6 +59,8 @@ int creacionprocesos(){
 void jugando(){
 	int p,i;
     int j;
+    char mov[30];
+    char poz[30];
 	char** cartas;
 	char** poso;
 	char col='z';
@@ -117,6 +119,7 @@ void jugando(){
 				poso = obtenercartas("pozo");
 				if(strcmp(CJTA," ") != 0) printf("Jugador 1: Jugador 4 me jugo %s\n",CJTA);
 				printf("Jugador 1: Mmmmmmm que carta jugare ahora?\n");
+				printf("[109] Robar carta y saltar\n");
 				print(cartas);
 				printf("La carta en el pozo es:\n");
 				print(poso);
@@ -124,15 +127,35 @@ void jugando(){
 				scanf("%d",&j);
 				while(!(puedojugarla(cartas[j],col)))
 				{
+					if(j == 109)break;
 					printf("Carta invalida, porfavor elegir otra carta\n");
 					print(cartas);
 					printf("La carta en el pozo es:\n");
 					print(poso);
 					scanf("%d",&j);
 				}
-				write(PaH1[1],cartas[j],strlen(cartas[j])+1);
+				if (j != 109)
+				{
+					strcpy(mov, "mano1/");
+					strcat(mov, cartas[j]);
+
+					strcpy(poz, "pozo/");
+					strcat(poz, poso[0]);
+					eliminar_carta(poz);
+					strcpy(poz, "pozo/");
+					strcat(poz, cartas[j]);
+					mover_carta(mov, poz);
+
+					write(PaH1[1],cartas[j],strlen(cartas[j])+1);
+				}
+				else
+				{
+					robarXCartas(1,1);
+					write(PaH1[1],"NONE",100);
+				}
 				liberarmemoria(cartas);
-				liberarmemoria(poso);	
+				liberarmemoria(poso);
+
 			}
 			else if (i == 1){
 				while((read(H1aP[0],pararecibir,100))<0);
@@ -197,18 +220,41 @@ void jugando(){
 				printf("Jugador 2: Jugador 1 me jugo %s\n",CJTA);
 				printf("Jugador 2: Mmmmmmm que carta jugare ahora?\n");
 				print(cartas);
+				printf("[109] Robar carta y saltar\n");
 				printf("La carta en el pozo es:\n");
 				print(poso);
 				scanf("%d",&j);
 				while(!(puedojugarla(cartas[j],col)))
 				{
+					if(j == 109)break;
 					printf("Carta invalida, porfavor elegir otra carta\n");
 					print(cartas);
 					printf("La carta en el pozo es:\n");
 					print(poso);
 					scanf("%d",&j);
 				}
-				write(H1aP[1],cartas[j],strlen(cartas[j])+1);
+				if(j != 109)
+				{
+					
+					strcpy(mov, "mano2/");
+					strcat(mov, cartas[j]);
+	
+					strcpy(poz, "pozo/");
+					strcat(poz, poso[0]);
+					eliminar_carta(poz);
+					strcpy(poz, "pozo/");
+					strcat(poz, cartas[j]);
+					mover_carta(mov, poz);
+	
+					write(H1aP[1],cartas[j],strlen(cartas[j])+1);
+				}
+
+				else
+				{
+					robarXCartas(1,2);
+					write(H1aP[1],"NONE",100);
+				}
+
 				liberarmemoria(cartas);
 				liberarmemoria(poso);
             }
@@ -250,19 +296,44 @@ void jugando(){
 				printf("Jugador 3: Jugador 2 me jugo %s\n",CJTA);
 				printf("Jugador 3: Mmmmmmm que carta jugare ahora?\n");
 				print(cartas);
+
+				printf("[109] Robar carta y saltar\n");
+
 				printf("La carta en el pozo es:\n");
 				print(poso);
 
 				scanf("%d",&j);
 				while(!(puedojugarla(cartas[j],col)))
 				{
+					if(j == 109)break;
 					printf("Carta invalida, porfavor elegir otra carta\n");
 					print(cartas);
 					printf("La carta en el pozo es:\n");
 					print(poso);
 					scanf("%d",&j);
 				}
-				write(H2aP[1],cartas[j],strlen(cartas[j])+1);
+				if(j != 109)	
+					{
+						strcpy(mov, "mano3/");
+						strcat(mov, cartas[j]);
+
+						strcpy(poz, "pozo/");
+						strcat(poz, poso[0]);
+						eliminar_carta(poz);
+						printf("%s\n",poz);
+						strcpy(poz, "pozo/");
+						strcat(poz, cartas[j]);
+						printf("%s\n",poz);
+						mover_carta(mov, poz);
+						write(H2aP[1],cartas[j],strlen(cartas[j])+1);
+					}
+
+				else
+				{
+					robarXCartas(1,3);
+					write(H2aP[1],"NONE",100);
+				}
+
 				liberarmemoria(cartas);
 				liberarmemoria(poso);
 			}
@@ -302,19 +373,42 @@ void jugando(){
 				printf("Jugador 4: Jugador 3 me jugo %s\n",CJTA);
 				printf("Jugador 4: Mmmmmmm que carta jugare ahora?\n");
 				print(cartas);
+
+				printf("-[1] Robar carta y saltar\n");
+
 				printf("La carta en el pozo es:\n");
 				print(poso);
 
 				scanf("%d",&j);
 				while(!(puedojugarla(cartas[j],col)))
 				{
+					if (j==109)break;
 					printf("Carta invalida, porfavor elegir otra carta\n");
 					print(cartas);
 					printf("La carta en el pozo es:\n");
 					print(poso);
 					scanf("%d",&j);
 				}
-				write(H3aP[1],cartas[j],strlen(cartas[j])+1);
+				if(j != 109)
+				{
+					strcpy(mov, "mano4/");
+					strcat(mov, cartas[j]);
+
+					strcpy(poz, "pozo/");
+					strcat(poz, poso[0]);
+					eliminar_carta(poz);
+					strcpy(poz, "pozo/");
+					strcat(poz, cartas[j]);
+					mover_carta(mov, poz);
+					write(H3aP[1],cartas[j],strlen(cartas[j])+1);
+				}
+
+				else
+				{
+					robarXCartas(1,4);
+					write(H3aP[1],"NONE",100);
+				}
+				
 				liberarmemoria(cartas);
 				liberarmemoria(poso);
 			}
