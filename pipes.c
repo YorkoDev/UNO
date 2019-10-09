@@ -12,6 +12,7 @@
 
 #include "pipes.h"
 #include "archivos.h"
+#include "juego.h"
 
 int id;
 int turnos[4];
@@ -59,6 +60,8 @@ void jugando(){
 	int p,i;
     int j;
 	char** cartas;
+	char** poso;
+	char col='z';
 	int* H1aP;
 	H1aP =(int*)malloc(sizeof(int)*2);
 	int* H2aP;
@@ -111,14 +114,25 @@ void jugando(){
 			write(PaH3[1],turn,strlen(turn)+1);
 			if(i == 0){
 				cartas=obtenercartas("mano1");
-				
+				poso = obtenercartas("pozo");
 				if(strcmp(CJTA," ") != 0) printf("Jugador 1: Jugador 4 me jugo %s\n",CJTA);
 				printf("Jugador 1: Mmmmmmm que carta jugare ahora?\n");
 				print(cartas);
-				
+				printf("La carta en el pozo es:\n");
+				print(poso);
+
 				scanf("%d",&j);
+				while(!(puedojugarla(cartas[j],col)))
+				{
+					printf("Carta invalida, porfavor elegir otra carta\n");
+					print(cartas);
+					printf("La carta en el pozo es:\n");
+					print(poso);
+					scanf("%d",&j);
+				}
 				write(PaH1[1],cartas[j],strlen(cartas[j])+1);
-				liberarmemoria(cartas);	
+				liberarmemoria(cartas);
+				liberarmemoria(poso);	
 			}
 			else if (i == 1){
 				while((read(H1aP[0],pararecibir,100))<0);
@@ -179,14 +193,24 @@ void jugando(){
 			if(strcmp(pararecibir,"5")== 0) break;
 			if(strcmp(pararecibir,"1") == 0){
                 cartas=obtenercartas("mano2");
-				
+				poso = obtenercartas("pozo");
 				printf("Jugador 2: Jugador 1 me jugo %s\n",CJTA);
 				printf("Jugador 2: Mmmmmmm que carta jugare ahora?\n");
 				print(cartas);
-				
+				printf("La carta en el pozo es:\n");
+				print(poso);
 				scanf("%d",&j);
+				while(!(puedojugarla(cartas[j],col)))
+				{
+					printf("Carta invalida, porfavor elegir otra carta\n");
+					print(cartas);
+					printf("La carta en el pozo es:\n");
+					print(poso);
+					scanf("%d",&j);
+				}
 				write(H1aP[1],cartas[j],strlen(cartas[j])+1);
 				liberarmemoria(cartas);
+				liberarmemoria(poso);
             }
 			else if(strcmp(pararecibir,"0") == 0){
 				while((read(PaH1[0],pararecibir,100))<0);
@@ -221,15 +245,26 @@ void jugando(){
 			while((read(PaH2[0],pararecibir,100))<0);
 			if(strcmp(pararecibir,"5")== 0) break;
 			if(strcmp(pararecibir,"2") == 0){
-				cartas=obtenercartas("mano3");
-
+				cartas = obtenercartas("mano3");
+				poso = obtenercartas("pozo");
 				printf("Jugador 3: Jugador 2 me jugo %s\n",CJTA);
 				printf("Jugador 3: Mmmmmmm que carta jugare ahora?\n");
 				print(cartas);
+				printf("La carta en el pozo es:\n");
+				print(poso);
 
 				scanf("%d",&j);
+				while(!(puedojugarla(cartas[j],col)))
+				{
+					printf("Carta invalida, porfavor elegir otra carta\n");
+					print(cartas);
+					printf("La carta en el pozo es:\n");
+					print(poso);
+					scanf("%d",&j);
+				}
 				write(H2aP[1],cartas[j],strlen(cartas[j])+1);
-				liberarmemoria(cartas);	
+				liberarmemoria(cartas);
+				liberarmemoria(poso);
 			}
 			else if(strcmp(pararecibir,"1") == 0){
 				while((read(PaH2[0],pararecibir,100))<0);
@@ -263,14 +298,25 @@ void jugando(){
 			if(strcmp(pararecibir,"5")== 0) break;
 			if(strcmp(pararecibir,"3") == 0){
 				cartas=obtenercartas("mano4");
-
+				poso = obtenercartas("pozo");
 				printf("Jugador 4: Jugador 3 me jugo %s\n",CJTA);
 				printf("Jugador 4: Mmmmmmm que carta jugare ahora?\n");
 				print(cartas);
+				printf("La carta en el pozo es:\n");
+				print(poso);
 
 				scanf("%d",&j);
+				while(!(puedojugarla(cartas[j],col)))
+				{
+					printf("Carta invalida, porfavor elegir otra carta\n");
+					print(cartas);
+					printf("La carta en el pozo es:\n");
+					print(poso);
+					scanf("%d",&j);
+				}
 				write(H3aP[1],cartas[j],strlen(cartas[j])+1);
 				liberarmemoria(cartas);
+				liberarmemoria(poso);
 			}
 			else if(strcmp(pararecibir,"2") == 0){
 				while((read(PaH3[0],pararecibir,100))<0);
