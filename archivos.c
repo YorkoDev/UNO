@@ -294,12 +294,13 @@ char** obtenercartas(char* carpeta)
 	return cartas;
 }
 
-void print(char** cartas){
+int print(char** cartas){
 	int j = 0;
 	while(strcmp(cartas[j],"STOP") != 0){
 		printf("[%d] %s\n",j,cartas[j]);
 		j++;
 	}
+	return j;
 }
 
 void liberarmemoria(char** cartas){

@@ -56,15 +56,59 @@ int creacionprocesos(){
     }
 }
 
+void mover_mazoapozo(char* carta, char* poso){
+	char mov[30];
+	char poz[30];
+	strcpy(mov, "mazo/");
+	strcat(mov, carta);
+
+	strcpy(poz, "pozo/");
+	strcat(poz, poso);
+	eliminar_carta(poz);
+	strcpy(poz, "pozo/");
+	strcat(poz, carta);
+	mover_carta(mov, poz);	
+}
+
+void mover_mazoamano(char* carta, int i){
+	char mov[30];
+	char poz[30];
+
+	strcpy(mov, "mazo/");
+	strcat(mov, carta);
+	if(i == 1) strcpy(poz, "mano1/");
+	else if(i == 2) strcpy(poz, "mano2/");
+	else if(i == 3) strcpy(poz, "mano3/");
+	else if(i == 4) strcpy(poz, "mano4/");
+	strcat(poz, carta);
+	mover_carta(mov, poz);
+}
+
+void mover_manoapozo(char* carta, char* poso,int i){
+	char mov[30];
+	char poz[30];
+
+	if(i == 1) strcpy(mov, "mano1/");
+	else if(i == 2) strcpy(mov, "mano2/");
+	else if(i == 3) strcpy(mov, "mano3/");
+	else if(i == 4) strcpy(mov, "mano4/");
+	strcat(mov, carta);
+
+	strcpy(poz, "pozo/");
+	strcat(poz, poso);
+	eliminar_carta(poz);
+	strcpy(poz, "pozo/");
+	strcat(poz, carta);
+	mover_carta(mov, poz);
+}
+
 void jugando(){
-	int p,i;
-    int j;
-    char mov[30];
-    char poz[30];
+	int p,i,j,k,direc;
     char* carta;
 	char** cartas;
 	char** poso;
 	char col='z';
+	direc = 0;
 	int* H1aP;
 	H1aP =(int*)malloc(sizeof(int)*2);
 	int* H2aP;
@@ -114,86 +158,112 @@ void jugando(){
 			write(PaH2[1],turn,strlen(turn)+1);
 			write(PaH3[1],turn,strlen(turn)+1);
 			if(i == 0){
-				cartas=obtenercartas("mano1");
+				cartas = obtenercartas("mano1");
 				poso = obtenercartas("pozo");
 				printf("\n");
 				printf("Turno Jugador 1\n");
-				if(strcmp(CJTA," ") != 0) printf("Jugador 1: Jugador 4 me jugo %s\n",CJTA);
-				printf("Jugador 1: Mmmmmmm que carta jugare ahora?\n");
-				printf("[109] Robar carta y saltar\n");
-				print(cartas);
-				printf("La carta en el pozo es:\n");
-				print(poso);
+				if(strcmp(CJTA," ") != 0){
+					if(strcmp(CJTA,"None") == 0) printf("Jugador 1: Cierto no jugo nada es mi oportunidad!\n");
+					else if(strcmp(CJTA,"SALTA") == 0) printf("Jugador 1: Oh no soy saltado!\n");
+					else printf("Jugador 1: Jugador 4 me jugo %s\n",CJTA);
+				}
 
-				scanf("%d",&j);
-
-				while(j != 109 && !(puedojugarla(cartas[j],col)))
-				{
-					printf("Carta invalida, porfavor elegir otra carta\n");
-					print(cartas);
+				if(strcmp(CJTA,"SALTA") != 0){
+					printf("Jugador 1: Mmmmmmm que carta jugare ahora?\n");
+					printf("[109] Robar carta y saltar\n");
+					k = print(cartas);
 					printf("La carta en el pozo es:\n");
 					print(poso);
+
 					scanf("%d",&j);
-				}
-				if (j != 109)
-				{
-					printf("ctm\n");
-					strcpy(mov, "mano1/");
-					strcat(mov, cartas[j]);
 
-					strcpy(poz, "pozo/");
-					strcat(poz, poso[0]);
-					eliminar_carta(poz);
-					strcpy(poz, "pozo/");
-					strcat(poz, cartas[j]);
-					mover_carta(mov, poz);
-
-					write(PaH1[1],cartas[j],strlen(cartas[j])+1);
-				}
-				else
-				{
-
-					carta = cartaMazo();
-					if(puedojugarla(carta,col)){
-						printf("Jugador 1: Wenaaa la buena suerte esta de mi lado %s\n",carta);
-						strcpy(mov, "mano1/");
-						strcat(mov, carta);
-
-						strcpy(poz, "pozo/");
-						strcat(poz, poso[0]);
-						eliminar_carta(poz);
-						strcpy(poz, "pozo/");
-						strcat(poz, carta);
-						mover_carta(mov, poz);	
-						write(PaH1[1],carta,100);
-						free(carta);					
+					while(j < k && !(puedojugarla(cartas[j],col)))
+					{
+						printf("Carta invalida, porfavor elegir otra carta\n");
+						k = print(cartas);
+						printf("La carta en el pozo es:\n");
+						print(poso);
+						scanf("%d",&j);
 					}
-					else{
-						printf("Jugador 1: Ay no que mala pata!\n");
-						char None[5];
-						strcpy(None,"None");
-						printf("None %s\n",None);
-						write(PaH1[1],None,5);
+					if (j != 109)
+					{					
+						mover_manoapozo(cartas[j],poso[0],1);
 						
+						if(cartas[j][0] == 'S'){
+							write(PaH1[1],"SALTA",6);
+						}
+						else write(PaH1[1],cartas[j],strlen(cartas[j])+1);
 					}
-				}
+					else
+					{
+						carta = cartaMazo();
+						if(puedojugarla(carta,col)){
+							printf("Jugador 1: Wenaaa la buena suerte esta de mi lado %s\n",carta);
+							mover_mazoapozo(carta,poso[0]);
+							if(carta[0] == 'S'){
+								char Salta[7];
+								strcpy(Salta,"SALTA");
+								write(PaH1[1],Salta,7);
+							}
+							else write(PaH1[1],carta,strlen(carta)+1);					
+						}
+						else{
+							printf("Jugador 1: Ay no que mala pata! Robe %s\n",carta);
+							
+							mover_mazoamano(carta,1);
+							char None[5];
+							strcpy(None,"None");
+							write(PaH1[1],None,5);
+						}
+						free(carta);
+					}
+				}else if(strcmp(CJTA,"SALTA") == 0) write(PaH1[1],"None",8);
 				liberarmemoria(cartas);
 				liberarmemoria(poso);
-
+				
+				
 			}
 			else if (i == 1){
 				while((read(H1aP[0],pararecibir,100))<0);
-				printf("Jugador 1: Asi que el Jugador 2 puso un %s... Suerte con eso Jugador 3\n",pararecibir);
+				if(strcmp(pararecibir,"None") == 0) printf("Jugador 1: Te salvaste jugador 3 el jugador 2 no jugo nada xd\n");
+				else if(strcmp(pararecibir,"SALTADO") == 0){
+					printf("Jugador 1: El jugador 2 fue saltado!\n");
+					strcpy(pararecibir,"None");
+				}
+				else if(strcmp(pararecibir,"SALTA") == 0){
+					printf("Jugador 1: OH NO JUGADOR 3 TE VAN A SALTAR!\n");
+					strcpy(pararecibir,"SALTA");
+				}
+				else printf("Jugador 1: Asi que el Jugador 2 puso un %s... Suerte con eso Jugador 3\n",pararecibir);
+
 				write(PaH2[1],pararecibir,strlen(pararecibir)+1);
 			}
 			else if (i == 2){
 				while((read(H2aP[0],pararecibir,100))<0);
-				printf("Jugador 1: Asi que el Jugador 3 puso un %s... Suerte con eso Jugador 4\n",pararecibir);
+				if(strcmp(pararecibir,"None") == 0) printf("Jugador 1: Te salvaste Jugador 4 el jugador 2 no jugo nada xd\n");
+				else if(strcmp(pararecibir,"SALTADO") == 0){
+					printf("Jugador 1: El jugador 3 fue saltado!\n");
+					strcpy(pararecibir,"None");
+				}
+				else if(strcmp(pararecibir,"SALTA") == 0){
+					printf("Jugador 1: OH NO JUGADOR 4 TE VAN A SALTAR!\n");
+					strcpy(pararecibir,"SALTA");
+				}
+				else printf("Jugador 1: Asi que el Jugador 3 puso un %s... Suerte con eso Jugador 4\n",pararecibir);
 				write(PaH3[1],pararecibir,strlen(pararecibir)+1);
 			}
 			else if (i == 3){
 				while((read(H3aP[0],pararecibir,100))<0);
-				printf("Jugador 1: Asi que el Jugador 4 puso un %s... Suerte con eso Jugador 1, oh cresta soy yo\n",pararecibir);
+				if(strcmp(pararecibir,"None") == 0) printf("Jugador 1: ME SALVE!!!!\n");
+				else if(strcmp(pararecibir,"SALTADO") == 0){
+					printf("Jugador 1: El jugador 4 fue saltado!\n");
+					strcpy(pararecibir,"None");
+				}
+				else if(strcmp(pararecibir,"SALTA") == 0){
+					printf("Jugador 1: OH NO JUGADOR 1 TE VAN A SALTAR! Oh wait...\n");
+					strcpy(pararecibir,"SALTA");
+				}
+				else printf("Jugador 1: Asi que el Jugador 4 puso un %s... Suerte con eso Jugador 1, oh cresta soy yo\n",pararecibir);
 				strcpy(CJTA,pararecibir);
 			}
 			i = (i + 1)%4;
@@ -239,53 +309,69 @@ void jugando(){
 				poso = obtenercartas("pozo");
 				printf("\n");
 				printf("Turno Jugador 2\n");
-				printf("Jugador 2: Jugador 1 me jugo %s\n",CJTA);
-				printf("Jugador 2: Mmmmmmm que carta jugare ahora?\n");
-				print(cartas);
-				printf("[109] Robar carta y saltar\n");
-				printf("La carta en el pozo es:\n");
-				print(poso);
-				scanf("%d",&j);
-				while(!(puedojugarla(cartas[j],col)))
-				{
-					if(j == 109)break;
-					printf("Carta invalida, porfavor elegir otra carta\n");
-					print(cartas);
+				if(strcmp(CJTA,"None") == 0) printf("Jugador 2: Cierto no jugo nada es mi oportunidad!\n");
+				else if(strcmp(CJTA,"SALTA") == 0) printf("Jugador 2: Oh no soy saltado!\n");
+				else printf("Jugador 2: Jugador 1 me jugo %s\n",CJTA);
+				
+				
+				if(strcmp(CJTA,"SALTA") != 0){
+					printf("Jugador 2: Mmmmmmm que carta jugare ahora?\n");
+					k = print(cartas);
+					printf("[109] Robar carta y saltar\n");
 					printf("La carta en el pozo es:\n");
 					print(poso);
 					scanf("%d",&j);
-				}
-				if(j != 109)
-				{
-					
-					strcpy(mov, "mano2/");
-					strcat(mov, cartas[j]);
-	
-					strcpy(poz, "pozo/");
-					strcat(poz, poso[0]);
-					eliminar_carta(poz);
-					strcpy(poz, "pozo/");
-					strcat(poz, cartas[j]);
-					mover_carta(mov, poz);
-	
-					write(H1aP[1],cartas[j],strlen(cartas[j])+1);
-				}
+					while(j < k && !(puedojugarla(cartas[j],col)))
+					{
+						printf("Carta invalida, porfavor elegir otra carta\n");
+						k = print(cartas);
+						printf("La carta en el pozo es:\n");
+						print(poso);
+						scanf("%d",&j);
+					}
+					if(j != 109)
+					{
+						
+						mover_manoapozo(cartas[j],poso[0],2);
+						if(cartas[j][0] == 'S'){
+							write(H1aP[1],"SALTA",6);
+						}
+						else write(H1aP[1],cartas[j],strlen(cartas[j])+1);
+						
+					}
 
-				else
-				{
-					robarXCartas(1,2);
-					write(H1aP[1],"NONE",100);
-				}
+					else
+					{
+						carta = cartaMazo();
+						if(puedojugarla(carta,col)){
+							printf("Jugador 2: Wenaaa la buena suerte esta de mi lado %s\n",carta);
+							mover_mazoapozo(carta,poso[0]);	
+							if(carta[0] == 'S'){
+								write(H1aP[1],"SALTA",6);
+							}
+							else write(H1aP[1],carta,strlen(carta)+1);					
+						}
+						else{
+							printf("Jugador 2: Ay no que mala pata! Robe %s\n",carta);
+							mover_mazoamano(carta,2);
 
+							char None[5];
+							strcpy(None,"None");
+							printf("None %s\n",None);
+							write(H1aP[1],None,5);
+						}
+						free(carta);
+					}
+				}
+				else if(strcmp(CJTA,"SALTA") == 0) write(H1aP[1],"SALTADO",8);
 				liberarmemoria(cartas);
 				liberarmemoria(poso);
             }
 			else if(strcmp(pararecibir,"0") == 0){
-				printf("Esperando\n");
 				while((read(PaH1[0],pararecibir,100))<0);
-				
-				printf("Jugador 2: Nani!!!! Asi que jugaste esa carta %s\n",pararecibir);
-				printf("Impresionante\n");
+				if(strcmp(pararecibir,"None") == 0) printf("Jugador 2: NO JUGO NADA VIVA CHILE\n");
+				else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 2: Me saltaron F :'c\n");
+				else printf("Jugador 2: Nani!!!! Asi que jugaste esa carta %s\n",pararecibir);
 				strcpy(CJTA,pararecibir);
 			}
 		}
@@ -319,54 +405,69 @@ void jugando(){
 				poso = obtenercartas("pozo");
 				printf("\n");
 				printf("Turno Jugador 3\n");
-				printf("Jugador 3: Jugador 2 me jugo %s\n",CJTA);
-				printf("Jugador 3: Mmmmmmm que carta jugare ahora?\n");
-				print(cartas);
+				if(strcmp(CJTA,"None") == 0) printf("Jugador 3: Cierto no jugo nada es mi oportunidad!\n");
+				else if(strcmp(CJTA,"SALTA") == 0) printf("Jugador 3: Oh no soy saltado!\n");
+				else printf("Jugador 3: Jugador 2 me jugo %s\n",CJTA);
+				
+				if(strcmp(CJTA,"SALTA") != 0){
+					printf("Jugador 3: Mmmmmmm que carta jugare ahora?\n");
+					k = print(cartas);
 
-				printf("[109] Robar carta y saltar\n");
+					printf("[109] Robar carta y saltar\n");
 
-				printf("La carta en el pozo es:\n");
-				print(poso);
-
-				scanf("%d",&j);
-				while(!(puedojugarla(cartas[j],col)))
-				{
-					if(j == 109)break;
-					printf("Carta invalida, porfavor elegir otra carta\n");
-					print(cartas);
 					printf("La carta en el pozo es:\n");
 					print(poso);
+
 					scanf("%d",&j);
-				}
-				if(j != 109)	
+					while(j < k && !(puedojugarla(cartas[j],col)))
 					{
-						strcpy(mov, "mano3/");
-						strcat(mov, cartas[j]);
-
-						strcpy(poz, "pozo/");
-						strcat(poz, poso[0]);
-						eliminar_carta(poz);
-						printf("%s\n",poz);
-						strcpy(poz, "pozo/");
-						strcat(poz, cartas[j]);
-						printf("%s\n",poz);
-						mover_carta(mov, poz);
-						write(H2aP[1],cartas[j],strlen(cartas[j])+1);
+						printf("Carta invalida, porfavor elegir otra carta\n");
+						k = print(cartas);
+						printf("La carta en el pozo es:\n");
+						print(poso);
+						scanf("%d",&j);
 					}
+					if(j != 109)	
+					{
+						mover_manoapozo(cartas[j],poso[0],3);
+						if(cartas[j][0] == 'S'){
+							write(H2aP[1],"SALTA",6);
+						}
+						else write(H2aP[1],cartas[j],strlen(cartas[j])+1);
+					}
+					else
+					{
+						carta = cartaMazo();
+						if(puedojugarla(carta,col)){
+							printf("Jugador 3: Wenaaa la buena suerte esta de mi lado %s\n",carta);
+							mover_mazoapozo(carta,poso[0]);
+							if(carta[0] == 'S'){
+								write(H2aP[1],"SALTA",6);
+							}
+							else write(H2aP[1],carta,strlen(carta)+1);	
+											
+						}
+						else{
+							printf("Jugador 3: Ay no que mala pata! Robe %s\n",carta);
+							mover_mazoamano(carta,3);
 
-				else
-				{
-					robarXCartas(1,3);
-					write(H2aP[1],"NONE",100);
+							char None[5];
+							strcpy(None,"None");
+							printf("None %s\n",None);
+							write(H2aP[1],None,5);
+						}
+						free(carta);
+					}
 				}
-
+				else if(strcmp(CJTA,"SALTA") == 0) write(H2aP[1],"SALTADO",8);
 				liberarmemoria(cartas);
 				liberarmemoria(poso);
 			}
 			else if(strcmp(pararecibir,"1") == 0){
 				while((read(PaH2[0],pararecibir,100))<0);
-				printf("Jugador 3: Nani!!!! Asi que jugaste esa carta %s\n",pararecibir);
-				
+				if(strcmp(pararecibir,"None") == 0) printf("Jugador 3: NO JUGO NADA VIVA CHILE\n");
+				else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 3: Me saltaron F :'c\n");
+				else printf("Jugador 3: Nani!!!! Asi que jugaste esa carta %s\n",pararecibir);
 				strcpy(CJTA,pararecibir);
 			}
 		}
@@ -398,53 +499,69 @@ void jugando(){
 				cartas=obtenercartas("mano4");
 				poso = obtenercartas("pozo");
 				printf("\n");
-				printf("Turno Jugador 2\n");
-				printf("Jugador 4: Jugador 3 me jugo %s\n",CJTA);
-				printf("Jugador 4: Mmmmmmm que carta jugare ahora?\n");
-				print(cartas);
+				printf("Turno Jugador 4\n");
+				if(strcmp(CJTA,"None") == 0) printf("Jugador 4: Cierto no jugo nada es mi oportunidad!\n");
+				else printf("Jugador 4: Jugador 3 me jugo %s\n",CJTA);
 
-				printf("[109] Robar carta y saltar\n");
+				if(strcmp(CJTA,"SALTA") != 0){
+					printf("Jugador 4: Mmmmmmm que carta jugare ahora?\n");
+					k = print(cartas);
 
-				printf("La carta en el pozo es:\n");
-				print(poso);
+					printf("[109] Robar carta y saltar\n");
 
-				scanf("%d",&j);
-				while(!(puedojugarla(cartas[j],col)))
-				{
-					if (j==109)break;
-					printf("Carta invalida, porfavor elegir otra carta\n");
-					print(cartas);
 					printf("La carta en el pozo es:\n");
 					print(poso);
+
 					scanf("%d",&j);
-				}
-				if(j != 109)
-				{
-					strcpy(mov, "mano4/");
-					strcat(mov, cartas[j]);
+					while(j < k && !(puedojugarla(cartas[j],col)))
+					{
+						if (j==109)break;
+						printf("Carta invalida, porfavor elegir otra carta\n");
+						k = print(cartas);
+						printf("La carta en el pozo es:\n");
+						print(poso);
+						scanf("%d",&j);
+					}
+					if(j != 109)
+					{
+						mover_manoapozo(cartas[j],poso[0],4);
+						if(cartas[j][0] == 'S'){
+							write(H3aP[1],"SALTA",6);
+						}
+						else write(H3aP[1],cartas[j],strlen(cartas[j])+1);
+					}
 
-					strcpy(poz, "pozo/");
-					strcat(poz, poso[0]);
-					eliminar_carta(poz);
-					strcpy(poz, "pozo/");
-					strcat(poz, cartas[j]);
-					mover_carta(mov, poz);
-					write(H3aP[1],cartas[j],strlen(cartas[j])+1);
+					else
+					{
+						carta = cartaMazo();
+						if(puedojugarla(carta,col)){
+							printf("Jugador 4: Wenaaa la buena suerte esta de mi lado %s\n",carta);
+							mover_mazoapozo(carta,poso[0]);	
+							if(carta[0] == 'S'){
+								write(H3aP[1],"SALTA",6);
+							}
+							else write(H3aP[1],carta,strlen(carta)+1);						
+						}
+						else{
+							printf("Jugador 4: Ay no que mala pata! Robe %s\n",carta);
+							mover_mazoamano(carta,4);
+							char None[5];
+							strcpy(None,"None");
+							printf("None %s\n",None);
+							write(H3aP[1],None,5);
+						}
+						free(carta);
+					}
 				}
-
-				else
-				{
-					robarXCartas(1,4);
-					write(H3aP[1],"NONE",100);
-				}
-				
+				else if(strcmp(CJTA,"SALTA") == 0) write(H3aP[1],"SALTADO",8);
 				liberarmemoria(cartas);
 				liberarmemoria(poso);
 			}
 			else if(strcmp(pararecibir,"2") == 0){
 				while((read(PaH3[0],pararecibir,100))<0);
-				printf("Jugador 4: Nani!!!! Asi que jugaste esa carta %s\n",pararecibir);
-				
+				if(strcmp(pararecibir,"None") == 0) printf("Jugador 4: NO JUGO NADA VIVA CHILE\n");
+				else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 4: Me saltaron F :'c\n");
+				else printf("Jugador 4: Nani!!!! Asi que jugaste esa carta %s\n",pararecibir);
 				strcpy(CJTA,pararecibir);
 			}	
 		}
