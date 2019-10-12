@@ -103,7 +103,7 @@ void mover_manoapozo(char* carta, char* poso,int i){
 }
 
 void jugando(){
-	int p,i,j,k,direc;
+	int p,i,j,k,direc, mas;
     char* carta;
 	char** cartas;
 	char** poso;
@@ -165,6 +165,13 @@ void jugando(){
 				if(strcmp(CJTA," ") != 0){
 					if(strcmp(CJTA,"None") == 0) printf("Jugador 1: Cierto no jugo nada es mi oportunidad!\n");
 					else if(strcmp(CJTA,"SALTA") == 0) printf("Jugador 1: Oh no soy saltado!\n");
+					else if(pararecibir[0]== '+')
+					{
+						mas = (int)pararecibir[1] - 48;
+						robarXCartas(mas, 2);
+						printf("Jugador 2: Me tiran un +%d y ademas no puedo jugar mi turno :c\n", mas);
+						strcpy(pararecibir, "SALTA");
+					}
 					else printf("Jugador 1: Jugador 4 me jugo %s\n",CJTA);
 				}
 
@@ -217,7 +224,8 @@ void jugando(){
 						}
 						free(carta);
 					}
-				}else if(strcmp(CJTA,"SALTA") == 0) write(PaH1[1],"None",8);
+				}
+				else if(strcmp(CJTA,"SALTA") == 0) write(PaH1[1],"None",8);
 				liberarmemoria(cartas);
 				liberarmemoria(poso);
 				
@@ -371,6 +379,13 @@ void jugando(){
 				while((read(PaH1[0],pararecibir,100))<0);
 				if(strcmp(pararecibir,"None") == 0) printf("Jugador 2: NO JUGO NADA VIVA CHILE\n");
 				else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 2: Me saltaron F :'c\n");
+				else if(pararecibir[0]== '+')
+				{
+					mas = (int)pararecibir[1] - 48;
+					robarXCartas(mas, 2);
+					printf("Jugador 2: Me tiran un +%d y ademas no puedo jugar mi turno :c\n", mas);
+					strcpy(pararecibir, "SALTA");
+				}
 				else printf("Jugador 2: Nani!!!! Asi que jugaste esa carta %s\n",pararecibir);
 				strcpy(CJTA,pararecibir);
 			}
@@ -467,6 +482,13 @@ void jugando(){
 				while((read(PaH2[0],pararecibir,100))<0);
 				if(strcmp(pararecibir,"None") == 0) printf("Jugador 3: NO JUGO NADA VIVA CHILE\n");
 				else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 3: Me saltaron F :'c\n");
+				else if(pararecibir[0]== '+')
+				{
+					mas = (int)pararecibir[1] - 48;
+					robarXCartas(mas, 3);
+					printf("Jugador 3: Me tiran un +%d y ademas no puedo jugar mi turno :c\n", mas);
+					strcpy(pararecibir, "SALTA");
+				}
 				else printf("Jugador 3: Nani!!!! Asi que jugaste esa carta %s\n",pararecibir);
 				strcpy(CJTA,pararecibir);
 			}
@@ -561,6 +583,13 @@ void jugando(){
 				while((read(PaH3[0],pararecibir,100))<0);
 				if(strcmp(pararecibir,"None") == 0) printf("Jugador 4: NO JUGO NADA VIVA CHILE\n");
 				else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 4: Me saltaron F :'c\n");
+				else if(pararecibir[0]== '+')
+				{
+					mas = (int)pararecibir[1] - 48;
+					robarXCartas(mas, 4);
+					printf("Jugador 3: Me tiran un +%d y ademas no puedo jugar mi turno :c\n", mas);
+					strcpy(pararecibir, "SALTA");
+				}
 				else printf("Jugador 4: Nani!!!! Asi que jugaste esa carta %s\n",pararecibir);
 				strcpy(CJTA,pararecibir);
 			}	
