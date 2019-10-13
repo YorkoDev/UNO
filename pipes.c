@@ -271,6 +271,13 @@ void jugando(){
 					printf("Jugador 1: OH NO JUGADOR 1 TE VAN A SALTAR! Oh wait...\n");
 					strcpy(pararecibir,"SALTA");
 				}
+				else if(pararecibir[0]== '+')
+				{
+					mas = (int)pararecibir[1] - 48;
+					robarXCartas(mas, 1);
+					printf("Jugador 1: Me tiran un +%d y ademas no puedo jugar mi turno :c\n", mas);
+					strcpy(pararecibir, "SALTA");
+				}
 				else printf("Jugador 1: Asi que el Jugador 4 puso un %s... Suerte con eso Jugador 1, oh cresta soy yo\n",pararecibir);
 				strcpy(CJTA,pararecibir);
 			}
