@@ -104,23 +104,25 @@ void mover_manoapozo(char* carta, char* poso,int i){
 
 void jugando(){
 	int p,i,j,k,direc, mas;
+	char color;
+	char paranegro[30];
     char* carta;
 	char** cartas;
 	char** poso;
 	char col='z';
 	direc = 0;
 	int* H1aP;
-	H1aP =(int*)malloc(sizeof(int)*2);
+	H1aP = (int*)malloc(sizeof(int)*2);
 	int* H2aP;
-	H2aP =(int*)malloc(sizeof(int)*2);
+	H2aP = (int*)malloc(sizeof(int)*2);
 	int* H3aP;
-	H3aP =(int*)malloc(sizeof(int)*2);
+	H3aP = (int*)malloc(sizeof(int)*2);
 	int* PaH1;
-	PaH1 =(int*)malloc(sizeof(int)*2);
+	PaH1 = (int*)malloc(sizeof(int)*2);
 	int* PaH2;
-	PaH2 =(int*)malloc(sizeof(int)*2);
+	PaH2 = (int*)malloc(sizeof(int)*2);
 	int* PaH3;
-	PaH3 =(int*)malloc(sizeof(int)*2);
+	PaH3 = (int*)malloc(sizeof(int)*2);
 	char paramandar[100];
 	char pararecibir[100];
 	
@@ -165,6 +167,7 @@ void jugando(){
 				if(strcmp(CJTA," ") != 0){
 					if(strcmp(CJTA,"None") == 0) printf("Jugador 1: Cierto no jugo nada es mi oportunidad!\n");
 					else if(strcmp(CJTA,"SALTA") == 0) printf("Jugador 1: Oh no soy saltado!\n");
+					else if(col != 'z') printf("Jugador 1: Me cambiaron el color a %c\n",col);
 					else if(pararecibir[0]== '+')
 					{
 						mas = (int)pararecibir[1] - 48;
@@ -175,7 +178,7 @@ void jugando(){
 					else printf("Jugador 1: Jugador 4 me jugo %s\n",CJTA);
 				}
 
-				if(strcmp(CJTA,"SALTA") != 0){
+				if(strcmp(CJTA,"SALTA") != 0 && CJTA[1] != '4'){
 					printf("Jugador 1: Mmmmmmm que carta jugare ahora?\n");
 					printf("[109] Robar carta y saltar\n");
 					k = print(cartas);
@@ -196,8 +199,31 @@ void jugando(){
 					{					
 						mover_manoapozo(cartas[j],poso[0],1);
 						
-						if(cartas[j][0] == 'S'){
-							write(PaH1[1],"SALTA",6);
+						if(cartas[j][0] == 'S') write(PaH1[1],"SALTA",6);
+						else if(cartas[j][2] == 'N'){
+							
+							printf("Jugador 1: MMMMM que color eligire?????\n");
+							printf("[1] Rojo\n[2] Verde\n[3] Azul\n[4] Amarillo\n");
+							scanf("%d",&k);
+							while(k > 4){
+								printf("[1] Rojo\n[2] Verde\n[3] Azul\n[4] Amarillo\n");
+								scanf("%d",&k);
+							}
+							char boi[1];
+							if(k == 1) color = 'R';
+							else if(k == 2) color = 'G';
+							else if(k == 3) color = 'B';
+							else color = 'Y';
+							
+							boi[0] = color;
+
+							strcpy(paranegro,cartas[j]);
+							strcat(paranegro,boi);
+							
+							write(PaH1[1],paranegro,strlen(paranegro)+1);
+							//SI POR AHORA LO QUE HICEE FUE EL JUGADOR 1 PUDIERA ELEGIR EL COLOR SOLO SI LA CARTA ES NEGRA
+							
+
 						}
 						else write(PaH1[1],cartas[j],strlen(cartas[j])+1);
 					}
@@ -212,6 +238,30 @@ void jugando(){
 								strcpy(Salta,"SALTA");
 								write(PaH1[1],Salta,7);
 							}
+							else if(carta[2] == 'N'){
+								printf("Jugador 1: MMMMM que color eligire?????\n");
+								printf("[1] Rojo\n[2] Verde\n[3] Azul\n[4] Amarillo\n");
+								scanf("%d",&k);
+								while(k > 4){
+									printf("[1] Rojo\n[2] Verde\n[3] Azul\n[4] Amarillo\n");
+									scanf("%d",&k);
+								}
+								char boi[1];
+								if(k == 1) color = 'R';
+								else if(k == 2) color = 'G';
+								else if(k == 3) color = 'B';
+								else color = 'Y';
+								
+								boi[0] = color;
+
+								strcpy(paranegro,carta);
+								strcat(paranegro,boi);
+								
+								write(PaH1[1],paranegro,strlen(paranegro)+1);
+								//SI POR AHORA LO QUE HICEE FUE EL JUGADOR 1 PUDIERA ELEGIR EL COLOR SOLO SI LA CARTA ES NEGRA
+								
+
+							}
 							else write(PaH1[1],carta,strlen(carta)+1);					
 						}
 						else{
@@ -224,6 +274,14 @@ void jugando(){
 						}
 						free(carta);
 					}
+				}
+				else if(CJTA[1] == '4'){
+
+					char pal[30];
+					strcpy(pal,"X");
+					pal[1] = CJTA[8];
+					printf("%s\n",pal);
+					write(PaH1[1],pal, strlen(pal)+1);
 				}
 				else if(strcmp(CJTA,"SALTA") == 0) write(PaH1[1],"None",8);
 				liberarmemoria(cartas);
@@ -242,13 +300,15 @@ void jugando(){
 					printf("Jugador 1: OH NO JUGADOR 3 TE VAN A SALTAR!\n");
 					strcpy(pararecibir,"SALTA");
 				}
+				else if(pararecibir[2] == 'N') printf("Jugador 1: Uuuuh cambiaron el color a %c\n",pararecibir[8]);
+				else if(pararecibir[0] == 'X') printf("Jugador 1: El jugador 2 robo 4 cartas por gil\n");
 				else printf("Jugador 1: Asi que el Jugador 2 puso un %s... Suerte con eso Jugador 3\n",pararecibir);
 
 				write(PaH2[1],pararecibir,strlen(pararecibir)+1);
 			}
 			else if (i == 2){
 				while((read(H2aP[0],pararecibir,100))<0);
-				if(strcmp(pararecibir,"None") == 0) printf("Jugador 1: Te salvaste Jugador 4 el jugador 2 no jugo nada xd\n");
+				if(strcmp(pararecibir,"None") == 0) printf("Jugador 1: Te salvaste Jugador 4 el jugador 3 no jugo nada xd\n");
 				else if(strcmp(pararecibir,"SALTADO") == 0){
 					printf("Jugador 1: El jugador 3 fue saltado!\n");
 					strcpy(pararecibir,"None");
@@ -257,6 +317,9 @@ void jugando(){
 					printf("Jugador 1: OH NO JUGADOR 4 TE VAN A SALTAR!\n");
 					strcpy(pararecibir,"SALTA");
 				}
+				else if(pararecibir[1] == '4') printf("Jugador 1: Uuuh te van a hacer robar 4\n");
+				else if(pararecibir[2] == 'N') printf("Jugador 1: Uuuuh cambiaron el color a %c\n",pararecibir[8]);
+				else if(pararecibir[0] == 'X') printf("Jugador 1: El jugador 3 robo 4 cartas por gil\n");
 				else printf("Jugador 1: Asi que el Jugador 3 puso un %s... Suerte con eso Jugador 4\n",pararecibir);
 				write(PaH3[1],pararecibir,strlen(pararecibir)+1);
 			}
@@ -270,6 +333,23 @@ void jugando(){
 				else if(strcmp(pararecibir,"SALTA") == 0){
 					printf("Jugador 1: OH NO JUGADOR 1 TE VAN A SALTAR! Oh wait...\n");
 					strcpy(pararecibir,"SALTA");
+				}
+				else if(pararecibir[0] == 'X'){
+					col = pararecibir[1];
+					printf("Jugador 1: JAJA! te hicieron robaron 4\n");
+					strcpy(pararecibir,"None");
+				}
+				else if(pararecibir[2] == 'N'){
+					if(pararecibir[0] == 'C'){
+						col = pararecibir[8];
+						printf("Jugador 1: Oh cambiaron el color!\n");
+						pararecibir[8] = '\0';
+					}
+					else
+					{
+						printf("Jugador 1: Me comi el sendo +4\n");
+						robarXCartas(4,1);
+					}
 				}
 				else if(pararecibir[0]== '+')
 				{
@@ -326,10 +406,11 @@ void jugando(){
 				printf("Turno Jugador 2\n");
 				if(strcmp(CJTA,"None") == 0) printf("Jugador 2: Cierto no jugo nada es mi oportunidad!\n");
 				else if(strcmp(CJTA,"SALTA") == 0) printf("Jugador 2: Oh no soy saltado!\n");
+				else if(col != 'z') printf("Jugador 2: Me cambiaron el color a %c\n",col);
 				else printf("Jugador 2: Jugador 1 me jugo %s\n",CJTA);
 				
 				
-				if(strcmp(CJTA,"SALTA") != 0){
+				if(strcmp(CJTA,"SALTA") != 0 && CJTA[1] != '4'){
 					printf("Jugador 2: Mmmmmmm que carta jugare ahora?\n");
 					k = print(cartas);
 					printf("[109] Robar carta y saltar\n");
@@ -351,10 +432,34 @@ void jugando(){
 						if(cartas[j][0] == 'S'){
 							write(H1aP[1],"SALTA",6);
 						}
+						else if(cartas[j][2] == 'N'){
+							
+							printf("Jugador 2: MMMMM que color eligire?????\n");
+							printf("[1] Rojo\n[2] Verde\n[3] Azul\n[4] Amarillo\n");
+							scanf("%d",&k);
+							while(k > 4){
+								printf("[1] Rojo\n[2] Verde\n[3] Azul\n[4] Amarillo\n");
+								scanf("%d",&k);
+							}
+							char boi[1];
+							if(k == 1) color = 'R';
+							else if(k == 2) color = 'G';
+							else if(k == 3) color = 'B';
+							else color = 'Y';
+							
+							boi[0] = color;
+
+							strcpy(paranegro,cartas[j]);
+							strcat(paranegro,boi);
+							
+							write(H1aP[1],paranegro,strlen(paranegro)+1);
+							//SI POR AHORA LO QUE HICEE FUE EL JUGADOR 1 PUDIERA ELEGIR EL COLOR SOLO SI LA CARTA ES NEGRA
+							
+
+						}
 						else write(H1aP[1],cartas[j],strlen(cartas[j])+1);
 						
 					}
-
 					else
 					{
 						carta = cartaMazo();
@@ -363,6 +468,30 @@ void jugando(){
 							mover_mazoapozo(carta,poso[0]);	
 							if(carta[0] == 'S'){
 								write(H1aP[1],"SALTA",6);
+							}
+							else if(carta[2] == 'N'){
+								printf("Jugador 2: MMMMM que color eligire?????\n");
+								printf("[1] Rojo\n[2] Verde\n[3] Azul\n[4] Amarillo\n");
+								scanf("%d",&k);
+								while(k > 4){
+									printf("[1] Rojo\n[2] Verde\n[3] Azul\n[4] Amarillo\n");
+									scanf("%d",&k);
+								}
+								char boi[1];
+								if(k == 1) color = 'R';
+								else if(k == 2) color = 'G';
+								else if(k == 3) color = 'B';
+								else color = 'Y';
+								
+								boi[0] = color;
+
+								strcpy(paranegro,carta);
+								strcat(paranegro,boi);
+								
+								write(H1aP[1],paranegro,strlen(paranegro)+1);
+								//SI POR AHORA LO QUE HICEE FUE EL JUGADOR 1 PUDIERA ELEGIR EL COLOR SOLO SI LA CARTA ES NEGRA
+								
+
 							}
 							else write(H1aP[1],carta,strlen(carta)+1);					
 						}
@@ -378,14 +507,39 @@ void jugando(){
 						free(carta);
 					}
 				}
+				else if(CJTA[1] == '4'){
+					char pal[30];
+					strcpy(pal,"X");
+					pal[1] = CJTA[8];
+					write(H1aP[1],pal, strlen(pal)+1);
+				}
 				else if(strcmp(CJTA,"SALTA") == 0) write(H1aP[1],"SALTADO",8);
 				liberarmemoria(cartas);
 				liberarmemoria(poso);
+				col = 'z';
             }
 			else if(strcmp(pararecibir,"0") == 0){
 				while((read(PaH1[0],pararecibir,100))<0);
 				if(strcmp(pararecibir,"None") == 0) printf("Jugador 2: NO JUGO NADA VIVA CHILE\n");
-				else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 2: Me saltaron F :'c\n");
+				else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 2: Me saltaron F :c\n");
+				else if(pararecibir[0] == 'X'){
+					col = pararecibir[1];
+					printf("Jugador 2: JAJA! te hicieron robaron 4\n");
+					strcpy(pararecibir,"None");
+				}
+				else if(pararecibir[2] == 'N'){
+					if(pararecibir[0] == 'C'){
+						col = pararecibir[8];
+						printf("Jugador 2: Oh cambiaron el color!\n");
+						pararecibir[8] = '\0';
+					}
+					else
+					{
+						//asjdajsdkasdjalsdjaklsdlasdajsdjklas
+						printf("Jugador 2: Me comi el sendo +4\n");
+						robarXCartas(4,2);
+					}
+				}
 				else if(pararecibir[0]== '+')
 				{
 					mas = (int)pararecibir[1] - 48;
@@ -431,7 +585,7 @@ void jugando(){
 				else if(strcmp(CJTA,"SALTA") == 0) printf("Jugador 3: Oh no soy saltado!\n");
 				else printf("Jugador 3: Jugador 2 me jugo %s\n",CJTA);
 				
-				if(strcmp(CJTA,"SALTA") != 0){
+				if(strcmp(CJTA,"SALTA") != 0 && CJTA[1] != '4'){
 					printf("Jugador 3: Mmmmmmm que carta jugare ahora?\n");
 					k = print(cartas);
 
@@ -455,6 +609,30 @@ void jugando(){
 						if(cartas[j][0] == 'S'){
 							write(H2aP[1],"SALTA",6);
 						}
+						else if(cartas[j][2] == 'N'){
+							
+							printf("Jugador 3: MMMMM que color eligire?????\n");
+							printf("[1] Rojo\n[2] Verde\n[3] Azul\n[4] Amarillo\n");
+							scanf("%d",&k);
+							while(k > 4){
+								printf("[1] Rojo\n[2] Verde\n[3] Azul\n[4] Amarillo\n");
+								scanf("%d",&k);
+							}
+							char boi[1];
+							if(k == 1) color = 'R';
+							else if(k == 2) color = 'G';
+							else if(k == 3) color = 'B';
+							else color = 'Y';
+							
+							boi[0] = color;
+
+							strcpy(paranegro,cartas[j]);
+							strcat(paranegro,boi);
+							
+							write(H2aP[1],paranegro,strlen(paranegro)+1);
+							//SI POR AHORA LO QUE HICEE FUE EL JUGADOR 1 PUDIERA ELEGIR EL COLOR SOLO SI LA CARTA ES NEGRA
+							
+						}
 						else write(H2aP[1],cartas[j],strlen(cartas[j])+1);
 					}
 					else
@@ -465,6 +643,30 @@ void jugando(){
 							mover_mazoapozo(carta,poso[0]);
 							if(carta[0] == 'S'){
 								write(H2aP[1],"SALTA",6);
+							}
+							else if(carta[2] == 'N'){
+								printf("Jugador 3: MMMMM que color eligire?????\n");
+								printf("[1] Rojo\n[2] Verde\n[3] Azul\n[4] Amarillo\n");
+								scanf("%d",&k);
+								while(k > 4){
+									printf("[1] Rojo\n[2] Verde\n[3] Azul\n[4] Amarillo\n");
+									scanf("%d",&k);
+								}
+								char boi[1];
+								if(k == 1) color = 'R';
+								else if(k == 2) color = 'G';
+								else if(k == 3) color = 'B';
+								else color = 'Y';
+								
+								boi[0] = color;
+
+								strcpy(paranegro,carta);
+								strcat(paranegro,boi);
+								
+								write(H2aP[1],paranegro,strlen(paranegro)+1);
+								//SI POR AHORA LO QUE HICEE FUE EL JUGADOR 1 PUDIERA ELEGIR EL COLOR SOLO SI LA CARTA ES NEGRA
+								
+
 							}
 							else write(H2aP[1],carta,strlen(carta)+1);	
 											
@@ -481,14 +683,38 @@ void jugando(){
 						free(carta);
 					}
 				}
+				else if(CJTA[1] == '4'){
+					char pal[30];
+					strcpy(pal,"X");
+					pal[1] = CJTA[8];
+					write(H2aP[1],pal, strlen(pal)+1);
+				}
 				else if(strcmp(CJTA,"SALTA") == 0) write(H2aP[1],"SALTADO",8);
 				liberarmemoria(cartas);
 				liberarmemoria(poso);
+				col = 'z';
 			}
 			else if(strcmp(pararecibir,"1") == 0){
 				while((read(PaH2[0],pararecibir,100))<0);
 				if(strcmp(pararecibir,"None") == 0) printf("Jugador 3: NO JUGO NADA VIVA CHILE\n");
 				else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 3: Me saltaron F :'c\n");
+				else if(pararecibir[0] == 'X'){
+					col = pararecibir[1];
+					printf("Jugador 3: JAJA! te hicieron robaron 4\n");
+					strcpy(pararecibir,"None");
+				}
+				else if(pararecibir[2] == 'N'){
+					if(pararecibir[0] == 'C'){
+						col = pararecibir[8];
+						printf("Jugador 3: Oh cambiaron el color!\n");
+						pararecibir[8] = '\0';
+					}
+					else
+					{
+						printf("Jugador 3: Me comi el sendo +4\n");
+						robarXCartas(4,3);
+					}
+				}
 				else if(pararecibir[0]== '+')
 				{
 					mas = (int)pararecibir[1] - 48;
@@ -532,7 +758,7 @@ void jugando(){
 				if(strcmp(CJTA,"None") == 0) printf("Jugador 4: Cierto no jugo nada es mi oportunidad!\n");
 				else printf("Jugador 4: Jugador 3 me jugo %s\n",CJTA);
 
-				if(strcmp(CJTA,"SALTA") != 0){
+				if(strcmp(CJTA,"SALTA") != 0 && CJTA[1] != '4'){
 					printf("Jugador 4: Mmmmmmm que carta jugare ahora?\n");
 					k = print(cartas);
 
@@ -557,6 +783,30 @@ void jugando(){
 						if(cartas[j][0] == 'S'){
 							write(H3aP[1],"SALTA",6);
 						}
+						else if(cartas[j][2] == 'N'){
+							
+							printf("Jugador 4: MMMMM que color eligire?????\n");
+							printf("[1] Rojo\n[2] Verde\n[3] Azul\n[4] Amarillo\n");
+							scanf("%d",&k);
+							while(k > 4){
+								printf("[1] Rojo\n[2] Verde\n[3] Azul\n[4] Amarillo\n");
+								scanf("%d",&k);
+							}
+							char boi[1];
+							if(k == 1) color = 'R';
+							else if(k == 2) color = 'G';
+							else if(k == 3) color = 'B';
+							else color = 'Y';
+							
+							boi[0] = color;
+
+							strcpy(paranegro,cartas[j]);
+							strcat(paranegro,boi);
+							
+							write(H3aP[1],paranegro,strlen(paranegro)+1);
+							//SI POR AHORA LO QUE HICEE FUE EL JUGADOR 1 PUDIERA ELEGIR EL COLOR SOLO SI LA CARTA ES NEGRA
+							
+						}
 						else write(H3aP[1],cartas[j],strlen(cartas[j])+1);
 					}
 
@@ -568,6 +818,30 @@ void jugando(){
 							mover_mazoapozo(carta,poso[0]);	
 							if(carta[0] == 'S'){
 								write(H3aP[1],"SALTA",6);
+							}
+							else if(carta[2] == 'N'){
+								printf("Jugador 4: MMMMM que color eligire?????\n");
+								printf("[1] Rojo\n[2] Verde\n[3] Azul\n[4] Amarillo\n");
+								scanf("%d",&k);
+								while(k > 4){
+									printf("[1] Rojo\n[2] Verde\n[3] Azul\n[4] Amarillo\n");
+									scanf("%d",&k);
+								}
+								char boi[1];
+								if(k == 1) color = 'R';
+								else if(k == 2) color = 'G';
+								else if(k == 3) color = 'B';
+								else color = 'Y';
+								
+								boi[0] = color;
+
+								strcpy(paranegro,carta);
+								strcat(paranegro,boi);
+								
+								write(H3aP[1],paranegro,strlen(paranegro)+1);
+								//SI POR AHORA LO QUE HICEE FUE EL JUGADOR 1 PUDIERA ELEGIR EL COLOR SOLO SI LA CARTA ES NEGRA
+								
+
 							}
 							else write(H3aP[1],carta,strlen(carta)+1);						
 						}
@@ -582,19 +856,43 @@ void jugando(){
 						free(carta);
 					}
 				}
+				else if(CJTA[1] == '4'){
+					char pal[30];
+					strcpy(pal,"X");
+					pal[1] = CJTA[8];
+					write(H3aP[1],pal, strlen(pal)+1);
+				}
 				else if(strcmp(CJTA,"SALTA") == 0) write(H3aP[1],"SALTADO",8);
 				liberarmemoria(cartas);
 				liberarmemoria(poso);
+				col = 'z';
 			}
 			else if(strcmp(pararecibir,"2") == 0){
 				while((read(PaH3[0],pararecibir,100))<0);
 				if(strcmp(pararecibir,"None") == 0) printf("Jugador 4: NO JUGO NADA VIVA CHILE\n");
 				else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 4: Me saltaron F :'c\n");
+				else if(pararecibir[0] == 'X'){
+					col = pararecibir[1];
+					printf("Jugador 4: JAJA! te hicieron robaron 4\n");
+					strcpy(pararecibir,"None");
+				}
+				else if(pararecibir[2] == 'N'){
+					if(pararecibir[0] == 'C'){
+						col = pararecibir[8];
+						printf("Jugador 4: Oh cambiaron el color!\n");
+						pararecibir[8] = '\0';
+					}
+					else
+					{
+						printf("Jugador 4: Me comi el sendo +4\n");
+						robarXCartas(4,4);
+					}
+				}
 				else if(pararecibir[0]== '+')
 				{
 					mas = (int)pararecibir[1] - 48;
 					robarXCartas(mas, 4);
-					printf("Jugador 3: Me tiran un +%d y ademas no puedo jugar mi turno :c\n", mas);
+					printf("Jugador 4: Me tiran un +%d y ademas no puedo jugar mi turno :c\n", mas);
 					strcpy(pararecibir, "SALTA");
 				}
 				else printf("Jugador 4: Nani!!!! Asi que jugaste esa carta %s\n",pararecibir);
