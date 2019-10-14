@@ -280,6 +280,14 @@ void jugando(){
 									strcpy(Salta,"SALTA");
 									write(PaH1[1],Salta,7);
 								}
+								else if(carta[0] == 'R')
+								{
+									direct = 0;
+									strcpy(turn,"7");
+									write(PaH1[1],turn,strlen(turn)+1);
+									write(PaH2[1],turn,strlen(turn)+1);
+									write(PaH3[1],turn,strlen(turn)+1);
+								}
 								else if(carta[2] == 'N'){
 									printf("Jugador 1: MMMMM que color eligire?????\n");
 									printf("[1] Rojo\n[2] Verde\n[3] Azul\n[4] Amarillo\n");
@@ -526,6 +534,14 @@ void jugando(){
 									char Salta[7];
 									strcpy(Salta,"SALTA");
 									write(PaH3[1],Salta,7);
+								}
+								else if(carta[0] == 'R')
+								{
+									direct = 1;
+									strcpy(turn,"7");
+									write(PaH1[1],turn,strlen(turn)+1);
+									write(PaH2[1],turn,strlen(turn)+1);
+									write(PaH3[1],turn,strlen(turn)+1);
 								}
 								else if(carta[2] == 'N'){
 									printf("Jugador 1: MMMMM que color eligire?????\n");
@@ -809,6 +825,13 @@ void jugando(){
 							if(carta[0] == 'S'){
 								write(H1aP[1],"SALTA",6);
 							}
+							else if(carta[0] == 'R')
+							{
+								if (direct == 0)direct = 1;
+								else direct = 0;
+								strcpy(turn,"7");
+								write(H1aP[1],turn,strlen(turn)+1);
+							}
 							else if(carta[2] == 'N'){
 								printf("Jugador 2: MMMMM que color eligire?????\n");
 								printf("[1] Rojo\n[2] Verde\n[3] Azul\n[4] Amarillo\n");
@@ -1052,6 +1075,13 @@ void jugando(){
 							if(carta[0] == 'S'){
 								write(H2aP[1],"SALTA",6);
 							}
+							else if(carta[0] == 'R')
+							{
+								if (direct == 0)direct = 1;
+								else direct = 0;
+								strcpy(turn,"7");
+								write(H2aP[1],turn,strlen(turn)+1);
+							}
 							else if(carta[2] == 'N'){
 								printf("Jugador 3: MMMMM que color eligire?????\n");
 								printf("[1] Rojo\n[2] Verde\n[3] Azul\n[4] Amarillo\n");
@@ -1292,6 +1322,13 @@ void jugando(){
 							mover_mazoapozo(carta,poso[0]);	
 							if(carta[0] == 'S'){
 								write(H3aP[1],"SALTA",6);
+							}
+							else if(carta[0]== 'R')
+							{
+								if (direct == 0)direct = 1;
+								else direct = 0;
+								strcpy(turn,"7");
+								write(H3aP[1],turn,strlen(turn)+1);
 							}
 							else if(carta[2] == 'N'){
 								printf("Jugador 4: MMMMM que color eligire?????\n");
