@@ -104,7 +104,7 @@ void mover_manoapozo(char* carta, char* poso,int i){
 
 void jugando(){
 	int p,i,j,k,direct=1,mas,boole=1;
-	char color;
+	char color, temp[2];
 	char paranegro[30];
     char* carta;
 	char** cartas;
@@ -237,6 +237,7 @@ void jugando(){
 						else
 						{
 							carta = cartaMazo();
+							printf("%s AAAAAAAAAAAAA\n", CJTA);
 							if(puedojugarla(carta,col)){
 								printf("Jugador 1: Wenaaa la buena suerte esta de mi lado %s\n",carta);
 								mover_mazoapozo(carta,poso[0]);
@@ -271,11 +272,16 @@ void jugando(){
 								}
 								else write(PaH1[1],carta,strlen(carta)+1);					
 							}
-							else if(CJTA[0]=='C'){
+							else if(poso[0][2]== 'N'){
 								mover_mazoamano(carta,1);
-								write(PaH1[1],CJTA,strlen(CJTA));
+								char pal[30];
+								strcpy(pal,"X");
+								pal[1] = col;
+								printf("%s\n",pal);
+								write(PaH1[1],pal, strlen(pal)+1);
 							}
-							else{
+							else
+							{
 								printf("Jugador 1: Ay no que mala pata! Robe %s\n",carta);
 								
 								mover_mazoamano(carta,1);
@@ -474,6 +480,7 @@ void jugando(){
 						else
 						{
 							carta = cartaMazo();
+							printf("%s AAAAAAAAAAAAA\n", CJTA);
 							if(puedojugarla(carta,col)){
 								printf("Jugador 1: Wenaaa la buena suerte esta de mi lado %s\n",carta);
 								mover_mazoapozo(carta,poso[0]);
@@ -505,9 +512,13 @@ void jugando(){
 								}
 								else write(PaH3[1],carta,strlen(carta)+1);					
 							}
-							else if(CJTA[0]=='C'){
+							else if(poso[0][2]== 'N'){
 								mover_mazoamano(carta,1);
-								write(PaH3[1],CJTA,strlen(CJTA));
+								char pal[30];
+								strcpy(pal,"X");
+								pal[1] = col;
+								printf("%s\n",pal);
+								write(PaH3[1],pal, strlen(pal)+1);
 							}
 							else{
 								printf("Jugador 1: Ay no que mala pata! Robe %s\n",carta);
@@ -752,6 +763,7 @@ void jugando(){
 					else
 					{
 						carta = cartaMazo();
+						printf("%s AAAAAAAAAAAAA\n", CJTA);
 						if(puedojugarla(carta,col)){
 							printf("Jugador 2: Wenaaa la buena suerte esta de mi lado %s\n",carta);
 							mover_mazoapozo(carta,poso[0]);	
@@ -784,10 +796,15 @@ void jugando(){
 							}
 							else write(H1aP[1],carta,strlen(carta)+1);					
 						}
-						else if(CJTA[0]=='C'){
+						else if(poso[0][2]== 'N'){
 								mover_mazoamano(carta,2);
-								write(H1aP[1],CJTA,strlen(CJTA));
+								char pal[30];
+								strcpy(pal,"X");
+								pal[1] = col;
+								printf("%s\n",pal);
+								write(H1aP[1],pal, strlen(pal)+1);
 							}
+	
 						else{
 							printf("Jugador 2: Ay no que mala pata! Robe %s\n",carta);
 							mover_mazoamano(carta,2);
@@ -988,6 +1005,7 @@ void jugando(){
 					else
 					{
 						carta = cartaMazo();
+						printf("%s AAAAAAAAAAAAA\n", CJTA);
 						if(puedojugarla(carta,col)){
 							printf("Jugador 3: Wenaaa la buena suerte esta de mi lado %s\n",carta);
 							mover_mazoapozo(carta,poso[0]);
@@ -1021,9 +1039,13 @@ void jugando(){
 							else write(H2aP[1],carta,strlen(carta)+1);	
 											
 						}
-						else if(CJTA[0]=='C'){
-								mover_mazoamano(carta,3);
-								write(H2aP[1],CJTA,strlen(CJTA));
+						else if(poso[0][2]== 'N'){
+								mover_mazoamano(carta,1);
+								char pal[30];
+								strcpy(pal,"X");
+								pal[1] = col;
+								printf("%s\n",pal);
+								write(H2aP[1],pal, strlen(pal)+1);
 							}
 						else{
 							printf("Jugador 3: Ay no que mala pata! Robe %s\n",carta);
@@ -1222,7 +1244,9 @@ void jugando(){
 					else
 					{
 						carta = cartaMazo();
-						if(puedojugarla(carta,col)){
+						printf("%s AAAAAAAAAAAAA\n", CJTA);
+						if(puedojugarla(carta,col))
+						{
 							printf("Jugador 4: Wenaaa la buena suerte esta de mi lado %s\n",carta);
 							mover_mazoapozo(carta,poso[0]);	
 							if(carta[0] == 'S'){
@@ -1254,10 +1278,15 @@ void jugando(){
 							}
 							else write(H3aP[1],carta,strlen(carta)+1);						
 						}
-						else if(CJTA[0]=='C'){
-								mover_mazoamano(carta,4);
-								write(H3aP[1],CJTA,strlen(CJTA));
-							}
+						else if(poso[0][2]== 'N')
+						{
+							mover_mazoamano(carta,1);
+							char pal[30];
+							strcpy(pal,"X");
+							pal[1] = col;
+							printf("%s\n",pal);
+							write(H3aP[1],pal, strlen(pal)+1);
+						}
 						else{
 							printf("Jugador 4: Ay no que mala pata! Robe %s\n",carta);
 							mover_mazoamano(carta,4);
