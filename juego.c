@@ -41,7 +41,7 @@ int puedojugarla(char* carta, char color)
 	if(temp[0] == 'S')
 	{
 		if(carta[0] == 'S') return 1;
-		else if(carta[0] == 'R') return carta[4] == temp[4];
+		else if(carta[0] == 'R') return carta[3] == temp[4];
 		else if(carta[1] == '2') return carta[2] == temp[4];
 		else if(carta[2] != 'N') return carta[1] == temp[4];
 		else return 1;

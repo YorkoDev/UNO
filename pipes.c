@@ -272,6 +272,10 @@ void jugando(){
 								}
 								else write(PaH1[1],carta,strlen(carta)+1);					
 							}
+							else if(CJTA[0]=='C'){
+								mover_mazoamano(carta,1);
+								write(PaH1[1],CJTA,strlen(CJTA));
+							}
 							else{
 								printf("Jugador 1: Ay no que mala pata! Robe %s\n",carta);
 								
@@ -436,6 +440,14 @@ void jugando(){
 							mover_manoapozo(cartas[j],poso[0],1);
 							
 							if(cartas[j][0] == 'S') write(PaH3[1],"SALTA",6);
+							if(cartas[j][0] == 'R')
+							{
+								direct = 1;
+								strcpy(turn,"7");
+								write(PaH1[1],turn,strlen(turn)+1);
+								write(PaH2[1],turn,strlen(turn)+1);
+								write(PaH3[1],turn,strlen(turn)+1);
+							}
 							else if(cartas[j][2] == 'N'){
 								
 								printf("Jugador 1: MMMMM que color eligire?????\n");
@@ -522,6 +534,14 @@ void jugando(){
 				{
 					while((read(H1aP[0],pararecibir,100))<0);
 					if(strcmp(pararecibir,"None") == 0) printf("Jugador 1: ME SALVE!!!!\n");
+					else if(strcmp(pararecibir,"7") == 0){
+						printf("Jugador 1: CAMBIARON EL SENTIDO DEL JUEGO!\n");
+						direct = 1;
+						write(PaH2[1],pararecibir,strlen(pararecibir)+1);
+						write(PaH3[1],pararecibir,strlen(pararecibir)+1);
+						boole = 0;
+						
+					}
 					else if(strcmp(pararecibir,"SALTADO") == 0){
 						printf("Jugador 1: El jugador 2 fue saltado!\n");
 						strcpy(pararecibir,"None");
@@ -561,6 +581,14 @@ void jugando(){
 				{
 					while((read(H2aP[0],pararecibir,100))<0);
 					if(strcmp(pararecibir,"None") == 0) printf("Jugador 1: Te salvaste Jugador 2 el jugador 3 no jugo nada xd\n");
+					else if(strcmp(pararecibir,"7") == 0){
+						printf("Jugador 1: CAMBIARON EL SENTIDO DEL JUEGO!\n");
+						direct = 1;
+						write(PaH1[1],pararecibir,strlen(pararecibir)+1);
+						write(PaH3[1],pararecibir,strlen(pararecibir)+1);
+						boole = 0;
+						
+					}
 					else if(strcmp(pararecibir,"SALTADO") == 0){
 						printf("Jugador 1: El jugador 3 fue saltado!\n");
 						strcpy(pararecibir,"None");
@@ -579,6 +607,13 @@ void jugando(){
 				{
 					while((read(H3aP[0],pararecibir,100))<0);
 					if(strcmp(pararecibir,"None") == 0) printf("Jugador 1: Te salvaste jugador 3 el jugador 4 no jugo nada xd\n");
+					else if(strcmp(pararecibir,"7") == 0){
+						printf("Jugador 1: CAMBIARON EL SENTIDO DEL JUEGO!\n");
+						direct = 1;
+						write(PaH1[1],pararecibir,strlen(pararecibir)+1);
+						write(PaH2[1],pararecibir,strlen(pararecibir)+1);
+						boole = 0;	
+					}
 					else if(strcmp(pararecibir,"SALTADO") == 0){
 						printf("Jugador 1: El jugador 4 fue saltado!\n");
 						strcpy(pararecibir,"None");
@@ -639,6 +674,10 @@ void jugando(){
 				printf("Jugador 2: ODITNES LE NORAIBMAC\n"); 
 				direct = 0;
 			}
+			else if(strcmp(pararecibir,"7") == 0 && direct == 0){
+				printf("Jugador 2: ODITNES LE NORAIBMAC\n"); 
+				direct = 1;
+			}
 			if(strcmp(pararecibir,"1") == 0){
                 cartas=obtenercartas("mano2");
 				poso = obtenercartas("pozo");
@@ -675,7 +714,6 @@ void jugando(){
 							else direct = 0;
 							strcpy(turn,"7");
 							write(H1aP[1],turn,strlen(turn)+1);
-							
 						}
 						else if(cartas[j][0] == 'S'){
 							write(H1aP[1],"SALTA",6);
@@ -806,34 +844,39 @@ void jugando(){
 			else if(strcmp(pararecibir,"2") == 0 && direct == 0)//Turno anterior al jugador 2
 			{ 
 				while((read(PaH1[0],pararecibir,100))<0);
-				if(strcmp(pararecibir,"None") == 0) printf("Jugador 2: NO JUGO NADA VIVA CHILE\n");
-				else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 2: Me saltaron F :c\n");
-				else if(pararecibir[0] == 'X'){
-					col = pararecibir[1];
-					printf("Jugador 2: JAJA! te hicieron robaron 4\n");
-					strcpy(pararecibir,"None");
-				}
-				else if(pararecibir[2] == 'N'){
-					if(pararecibir[0] == 'C'){
-						col = pararecibir[8];
-						printf("Jugador 2: Oh cambiaron el color!\n");
-						pararecibir[8] = '\0';
+				if(pararecibir[0] != '7'){
+					if(strcmp(pararecibir,"None") == 0) printf("Jugador 2: NO JUGO NADA VIVA CHILE\n");
+					else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 2: Me saltaron F :c\n");
+					else if(pararecibir[0] == 'X'){
+						col = pararecibir[1];
+						printf("Jugador 2: JAJA! te hicieron robaron 4\n");
+						strcpy(pararecibir,"None");
 					}
-					else
+					else if(pararecibir[2] == 'N'){
+						if(pararecibir[0] == 'C'){
+							col = pararecibir[8];
+							printf("Jugador 2: Oh cambiaron el color!\n");
+							pararecibir[8] = '\0';
+						}
+						else
+						{
+							printf("Jugador 2: Me comi el sendo +4\n");
+							robarXCartas(4,2);
+						}
+					}
+					else if(pararecibir[0]== '+')
 					{
-						printf("Jugador 2: Me comi el sendo +4\n");
-						robarXCartas(4,2);
+						mas = (int)pararecibir[1] - 48;
+						robarXCartas(mas, 2);
+						printf("Jugador 2: Me tiran un +%d y ademas no puedo jugar mi turno :c\n", mas);
+						strcpy(pararecibir, "SALTA");
 					}
+					else printf("Jugador 2: Nani!!!! Asi que jugaste esa carta %s\n",pararecibir);
+					strcpy(CJTA,pararecibir);
+				}else{
+					printf("Jugador 2: CAMBIARON EL SENTIDO DEL JUEGO AAAAA \n");
+					direct = 1;
 				}
-				else if(pararecibir[0]== '+')
-				{
-					mas = (int)pararecibir[1] - 48;
-					robarXCartas(mas, 2);
-					printf("Jugador 2: Me tiran un +%d y ademas no puedo jugar mi turno :c\n", mas);
-					strcpy(pararecibir, "SALTA");
-				}
-				else printf("Jugador 2: Nani!!!! Asi que jugaste esa carta %s\n",pararecibir);
-				strcpy(CJTA,pararecibir);
 			}
 		}
 		close(PaH1[0]);
@@ -864,6 +907,10 @@ void jugando(){
 			if(strcmp(pararecibir,"7") == 0 && direct == 1){
 				printf("Jugador 3: ODITNES LE NORAIBMAC\n"); 
 				direct = 0;
+			}
+			else if(strcmp(pararecibir,"7") == 0 && direct == 0){
+				printf("Jugador 3: ODITNES LE NORAIBMAC\n"); 
+				direct = 1;
 			}
 			if(strcmp(pararecibir,"2") == 0){
 				cartas = obtenercartas("mano3");
@@ -1028,34 +1075,39 @@ void jugando(){
 			}
 			else if(strcmp(pararecibir,"3") == 0 && direct == 0){
 				while((read(PaH2[0],pararecibir,100))<0);
-				if(strcmp(pararecibir,"None") == 0) printf("Jugador 3: NO JUGO NADA VIVA CHILE\n");
-				else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 3: Me saltaron F :'c\n");
-				else if(pararecibir[0] == 'X'){
-					col = pararecibir[1];
-					printf("Jugador 3: JAJA! te hicieron robaron 4\n");
-					strcpy(pararecibir,"None");
-				}
-				else if(pararecibir[2] == 'N'){
-					if(pararecibir[0] == 'C'){
-						col = pararecibir[8];
-						printf("Jugador 3: Oh cambiaron el color!\n");
-						pararecibir[8] = '\0';
+				if(strcmp(pararecibir,"7") != 0){	
+					if(strcmp(pararecibir,"None") == 0) printf("Jugador 3: NO JUGO NADA VIVA CHILE\n");
+					else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 3: Me saltaron F :'c\n");
+					else if(pararecibir[0] == 'X'){
+						col = pararecibir[1];
+						printf("Jugador 3: JAJA! te hicieron robaron 4\n");
+						strcpy(pararecibir,"None");
 					}
-					else
+					else if(pararecibir[2] == 'N'){
+						if(pararecibir[0] == 'C'){
+							col = pararecibir[8];
+							printf("Jugador 3: Oh cambiaron el color!\n");
+							pararecibir[8] = '\0';
+						}
+						else
+						{
+							printf("Jugador 3: Me comi el sendo +4\n");
+							robarXCartas(4,3);
+						}
+					}
+					else if(pararecibir[0]== '+')
 					{
-						printf("Jugador 3: Me comi el sendo +4\n");
-						robarXCartas(4,3);
+						mas = (int)pararecibir[1] - 48;
+						robarXCartas(mas, 3);
+						printf("Jugador 3: Me tiran un +%d y ademas no puedo jugar mi turno :c\n", mas);
+						strcpy(pararecibir, "SALTA");
 					}
+					else printf("Jugador 3: Nani!!!! Asi que jugaste esa carta %s\n",pararecibir);
+					strcpy(CJTA,pararecibir);
+				}else{
+					printf("Jugador 3: CAMBIARON EL SENTIDO DEL JUEGO AAAAA \n");
+					direct = 1;
 				}
-				else if(pararecibir[0]== '+')
-				{
-					mas = (int)pararecibir[1] - 48;
-					robarXCartas(mas, 3);
-					printf("Jugador 3: Me tiran un +%d y ademas no puedo jugar mi turno :c\n", mas);
-					strcpy(pararecibir, "SALTA");
-				}
-				else printf("Jugador 3: Nani!!!! Asi que jugaste esa carta %s\n",pararecibir);
-				strcpy(CJTA,pararecibir);
 			}
 		}
 		close(PaH2[0]);
@@ -1085,6 +1137,10 @@ void jugando(){
 			if(strcmp(pararecibir,"7") == 0 && direct == 1){
 				printf("Jugador 4: ODITNES LE NORAIBMAC\n"); 
 				direct = 0;
+			}
+			else if(strcmp(pararecibir,"7") == 0 && direct == 0){
+				printf("Jugador 4: ODITNES LE NORAIBMAC\n"); 
+				direct = 1;
 			}
 			if(strcmp(pararecibir,"3") == 0){
 				cartas=obtenercartas("mano4");
@@ -1247,34 +1303,39 @@ void jugando(){
 			}
 			else if(strcmp(pararecibir,"0") == 0 && direct == 0){
 				while((read(PaH3[0],pararecibir,100))<0);
-				if(strcmp(pararecibir,"None") == 0) printf("Jugador 4: NO JUGO NADA VIVA CHILE\n");
-				else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 4: Me saltaron F :'c\n");
-				else if(pararecibir[0] == 'X'){
-					col = pararecibir[1];
-					printf("Jugador 4: JAJA! te hicieron robaron 4\n");
-					strcpy(pararecibir,"None");
-				}
-				else if(pararecibir[2] == 'N'){
-					if(pararecibir[0] == 'C'){
-						col = pararecibir[8];
-						printf("Jugador 4: Oh cambiaron el color!\n");
-						pararecibir[8] = '\0';
+				if(strcmp(pararecibir,"7") != 0){
+					if(strcmp(pararecibir,"None") == 0) printf("Jugador 4: NO JUGO NADA VIVA CHILE\n");
+					else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 4: Me saltaron F :'c\n");
+					else if(pararecibir[0] == 'X'){
+						col = pararecibir[1];
+						printf("Jugador 4: JAJA! te hicieron robaron 4\n");
+						strcpy(pararecibir,"None");
 					}
-					else
+					else if(pararecibir[2] == 'N'){
+						if(pararecibir[0] == 'C'){
+							col = pararecibir[8];
+							printf("Jugador 4: Oh cambiaron el color!\n");
+							pararecibir[8] = '\0';
+						}
+						else
+						{
+							printf("Jugador 4: Me comi el sendo +4\n");
+							robarXCartas(4,4);
+						}
+					}
+					else if(pararecibir[0]== '+')
 					{
-						printf("Jugador 4: Me comi el sendo +4\n");
-						robarXCartas(4,4);
+						mas = (int)pararecibir[1] - 48;
+						robarXCartas(mas, 4);
+						printf("Jugador 4: Me tiran un +%d y ademas no puedo jugar mi turno :c\n", mas);
+						strcpy(pararecibir, "SALTA");
 					}
+					else printf("Jugador 4: Nani!!!! Asi que jugaste esa carta %s\n",pararecibir);
+					strcpy(CJTA,pararecibir);
+				}else{
+					printf("Jugador 4: CAMBIARON EL SENTIDO DEL JUEGO AAAAA \n");
+					direct = 1;
 				}
-				else if(pararecibir[0]== '+')
-				{
-					mas = (int)pararecibir[1] - 48;
-					robarXCartas(mas, 4);
-					printf("Jugador 4: Me tiran un +%d y ademas no puedo jugar mi turno :c\n", mas);
-					strcpy(pararecibir, "SALTA");
-				}
-				else printf("Jugador 4: Nani!!!! Asi que jugaste esa carta %s\n",pararecibir);
-				strcpy(CJTA,pararecibir);
 			}	
 		}
 		close(PaH3[0]);
