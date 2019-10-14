@@ -17,7 +17,33 @@
 int id;
 int turnos[4];
 
+int cantmano(int mano)
+{
+	DIR*d;
+	struct dirent *dir;
+	int i = 0;
+	char a[2];
+	char path[12];
+	a[1] = '\0';
+	strcpy(path,"./mano");
+	sprintf(a, "%d", mano);
+	strcat(path,a);
+	d = opendir(path);
 
+	if(d)
+	{
+		while((dir = readdir(d)) != NULL)
+		{
+			if(strcmp(".",dir->d_name) != 0 && strcmp("..",dir->d_name) != 0)
+			{
+
+				i++;
+			}
+		}
+	}
+	closedir(d);
+	return i;
+}
 //[padre,hijo1.hijo2,hijo3]
 int creacionprocesos(){
     int i;
@@ -104,7 +130,7 @@ void mover_manoapozo(char* carta, char* poso,int i){
 
 void jugando(){
 	int p,i,j,k,direct=1,mas,boole=1;
-	char color, temp[2];
+	char color;
 	char paranegro[30];
     char* carta;
 	char** cartas;
@@ -158,6 +184,12 @@ void jugando(){
 			write(PaH1[1],turn,strlen(turn)+1);
 			write(PaH2[1],turn,strlen(turn)+1);
 			write(PaH3[1],turn,strlen(turn)+1);
+			
+			if(cantmano(1) == 1) printf("Al Jugador 1 le queda una carta\n");
+			if(cantmano(2) == 1) printf("Al Jugador 2 le queda una carta\n");
+			if(cantmano(3) == 1) printf("Al Jugador 3 le queda una carta\n");
+			if(cantmano(4) == 1) printf("Al Jugador 4 le queda una carta\n");
+
 			if(direct)
 			{	
 				if(i%4 == 0){
@@ -184,7 +216,7 @@ void jugando(){
 						k = print(cartas);
 						printf("La carta en el pozo es:\n");
 						print(poso);
-
+						if(col != 'z') printf("El color actual es %c\n", col);
 						scanf("%d",&j);
 
 						while(j < k && !(puedojugarla(cartas[j],col)))
@@ -193,7 +225,9 @@ void jugando(){
 							k = print(cartas);
 							printf("La carta en el pozo es:\n");
 							print(poso);
+							if(col != 'z') printf("El color actual es %c\n", col);
 							scanf("%d",&j);
+
 						}
 						if (j != 109)
 						{					
@@ -237,7 +271,7 @@ void jugando(){
 						else
 						{
 							carta = cartaMazo();
-							printf("%s AAAAAAAAAAAAA\n", CJTA);
+							
 							if(puedojugarla(carta,col)){
 								printf("Jugador 1: Wenaaa la buena suerte esta de mi lado %s\n",carta);
 								mover_mazoapozo(carta,poso[0]);
@@ -326,7 +360,7 @@ void jugando(){
 						strcpy(pararecibir,"SALTA");
 					}
 					else if(pararecibir[2] == 'N') printf("Jugador 1: Uuuuh cambiaron el color a %c\n",pararecibir[8]);
-					else if(pararecibir[0] == 'X') printf("Jugador 1: El jugador 2 robo 4 cartas por gil\n");
+					else if(pararecibir[0] == 'X') printf("Jugador 1: jijijijijjij\n");
 					else printf("Jugador 1: Asi que el Jugador 2 puso un %s... Suerte con eso Jugador 3\n",pararecibir);
 
 					if(boole == 1) write(PaH2[1],pararecibir,strlen(pararecibir)+1);
@@ -352,7 +386,7 @@ void jugando(){
 					}
 					else if(pararecibir[1] == '4') printf("Jugador 1: Uuuh te van a hacer robar 4\n");
 					else if(pararecibir[2] == 'N') printf("Jugador 1: Uuuuh cambiaron el color a %c\n",pararecibir[8]);
-					else if(pararecibir[0] == 'X') printf("Jugador 1: El jugador 3 robo 4 cartas por gil\n");
+					else if(pararecibir[0] == 'X') printf("Jugador 1: jijijijijjij\n");
 					else printf("Jugador 1: Asi que el Jugador 3 puso un %s... Suerte con eso Jugador 4\n",pararecibir);
 					if(boole == 1)write(PaH3[1],pararecibir,strlen(pararecibir)+1);
 				}
@@ -376,7 +410,6 @@ void jugando(){
 					}
 					else if(pararecibir[0] == 'X'){
 						col = pararecibir[1];
-						printf("Jugador 1: JAJA! te hicieron robaron 4\n");
 						strcpy(pararecibir,"None");
 					}
 					else if(pararecibir[2] == 'N'){
@@ -404,6 +437,10 @@ void jugando(){
 			}
 			else
 			{
+				printf("%d\n", cantmano(1));
+				printf("%d\n", cantmano(2));
+				printf("%d\n", cantmano(3));
+				printf("%d\n", cantmano(4));
 				if(i%4 == 0){
 					cartas = obtenercartas("mano1");
 					poso = obtenercartas("pozo");
@@ -429,7 +466,7 @@ void jugando(){
 						k = print(cartas);
 						printf("La carta en el pozo es:\n");
 						print(poso);
-
+						if(col != 'z') printf("El color actual es %c\n", col);
 						scanf("%d",&j);
 
 						while(j < k && !(puedojugarla(cartas[j],col)))
@@ -438,6 +475,7 @@ void jugando(){
 							k = print(cartas);
 							printf("La carta en el pozo es:\n");
 							print(poso);
+							if(col != 'z') printf("El color actual es %c\n", col);
 							scanf("%d",&j);
 						}
 						if (j != 109)
@@ -480,7 +518,7 @@ void jugando(){
 						else
 						{
 							carta = cartaMazo();
-							printf("%s AAAAAAAAAAAAA\n", CJTA);
+							
 							if(puedojugarla(carta,col)){
 								printf("Jugador 1: Wenaaa la buena suerte esta de mi lado %s\n",carta);
 								mover_mazoapozo(carta,poso[0]);
@@ -566,7 +604,6 @@ void jugando(){
 					}
 					else if(pararecibir[0] == 'X'){
 						col = pararecibir[1];
-						printf("Jugador 1: JAJA! te hicieron robaron 4\n");
 						strcpy(pararecibir,"None");
 					}
 					else if(pararecibir[2] == 'N'){
@@ -613,7 +650,7 @@ void jugando(){
 					}
 					else if(pararecibir[1] == '4') printf("Jugador 1: Uuuh te van a hacer robar 4\n");
 					else if(pararecibir[2] == 'N') printf("Jugador 1: Uuuuh cambiaron el color a %c\n",pararecibir[8]);
-					else if(pararecibir[0] == 'X') printf("Jugador 1: El jugador 3 robo 4 cartas por gil\n");
+					else if(pararecibir[0] == 'X') printf("Jugador 1: jijijijjijij\n");
 					else printf("Jugador 1: Asi que el Jugador 3 puso un %s... Suerte con eso Jugador 2\n",pararecibir);
 					write(PaH1[1],pararecibir,strlen(pararecibir)+1);
 				}
@@ -637,7 +674,7 @@ void jugando(){
 						strcpy(pararecibir,"SALTA");
 					}
 					else if(pararecibir[2] == 'N') printf("Jugador 1: Uuuuh cambiaron el color a %c\n",pararecibir[8]);
-					else if(pararecibir[0] == 'X') printf("Jugador 1: El jugador 4 robo 4 cartas por gil\n");
+					else if(pararecibir[0] == 'X') printf("Jugador 1: jijijijjijij\n");
 					else printf("Jugador 1: Asi que el Jugador 4 puso un %s... Suerte con eso Jugador 3\n",pararecibir);
 
 					write(PaH2[1],pararecibir,strlen(pararecibir)+1);
@@ -709,6 +746,7 @@ void jugando(){
 					printf("[109] Robar carta y saltar\n");
 					printf("La carta en el pozo es:\n");
 					print(poso);
+					if(col != 'z') printf("El color actual es %c\n", col);
 					scanf("%d",&j);
 					while(j < k && !(puedojugarla(cartas[j],col)))
 					{
@@ -716,6 +754,7 @@ void jugando(){
 						k = print(cartas);
 						printf("La carta en el pozo es:\n");
 						print(poso);
+						if(col != 'z') printf("El color actual es %c\n", col);
 						scanf("%d",&j);
 					}
 					if(j != 109)
@@ -763,7 +802,7 @@ void jugando(){
 					else
 					{
 						carta = cartaMazo();
-						printf("%s AAAAAAAAAAAAA\n", CJTA);
+						
 						if(puedojugarla(carta,col)){
 							printf("Jugador 2: Wenaaa la buena suerte esta de mi lado %s\n",carta);
 							mover_mazoapozo(carta,poso[0]);	
@@ -836,7 +875,7 @@ void jugando(){
 					else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 2: Me saltaron F :c\n");
 					else if(pararecibir[0] == 'X'){
 						col = pararecibir[1];
-						printf("Jugador 2: JAJA! te hicieron robaron 4\n");
+						
 						strcpy(pararecibir,"None");
 					}
 					else if(pararecibir[2] == 'N'){
@@ -873,7 +912,7 @@ void jugando(){
 					else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 2: Me saltaron F :c\n");
 					else if(pararecibir[0] == 'X'){
 						col = pararecibir[1];
-						printf("Jugador 2: JAJA! te hicieron robaron 4\n");
+
 						strcpy(pararecibir,"None");
 					}
 					else if(pararecibir[2] == 'N'){
@@ -953,7 +992,7 @@ void jugando(){
 
 					printf("La carta en el pozo es:\n");
 					print(poso);
-
+					if(col != 'z') printf("El color actual es %c\n", col);
 					scanf("%d",&j);
 					while(j < k && !(puedojugarla(cartas[j],col)))
 					{
@@ -961,6 +1000,7 @@ void jugando(){
 						k = print(cartas);
 						printf("La carta en el pozo es:\n");
 						print(poso);
+						if(col != 'z') printf("El color actual es %c\n", col);
 						scanf("%d",&j);
 					}
 					if(j != 109)	
@@ -1005,7 +1045,7 @@ void jugando(){
 					else
 					{
 						carta = cartaMazo();
-						printf("%s AAAAAAAAAAAAA\n", CJTA);
+						
 						if(puedojugarla(carta,col)){
 							printf("Jugador 3: Wenaaa la buena suerte esta de mi lado %s\n",carta);
 							mover_mazoapozo(carta,poso[0]);
@@ -1077,7 +1117,7 @@ void jugando(){
 					else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 3: Me saltaron F :'c\n");
 					else if(pararecibir[0] == 'X'){
 						col = pararecibir[1];
-						printf("Jugador 3: JAJA! te hicieron robaron 4\n");
+
 						strcpy(pararecibir,"None");
 					}
 					else if(pararecibir[2] == 'N'){
@@ -1113,7 +1153,7 @@ void jugando(){
 					else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 3: Me saltaron F :'c\n");
 					else if(pararecibir[0] == 'X'){
 						col = pararecibir[1];
-						printf("Jugador 3: JAJA! te hicieron robaron 4\n");
+
 						strcpy(pararecibir,"None");
 					}
 					else if(pararecibir[2] == 'N'){
@@ -1191,7 +1231,7 @@ void jugando(){
 
 					printf("La carta en el pozo es:\n");
 					print(poso);
-
+					if(col != 'z') printf("El color actual es %c\n", col);
 					scanf("%d",&j);
 					while(j < k && !(puedojugarla(cartas[j],col)))
 					{
@@ -1200,6 +1240,7 @@ void jugando(){
 						k = print(cartas);
 						printf("La carta en el pozo es:\n");
 						print(poso);
+						if(col != 'z') printf("El color actual es %c\n", col);
 						scanf("%d",&j);
 					}
 					if(j != 109)
@@ -1244,7 +1285,7 @@ void jugando(){
 					else
 					{
 						carta = cartaMazo();
-						printf("%s AAAAAAAAAAAAA\n", CJTA);
+						
 						if(puedojugarla(carta,col))
 						{
 							printf("Jugador 4: Wenaaa la buena suerte esta de mi lado %s\n",carta);
@@ -1316,7 +1357,7 @@ void jugando(){
 					else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 4: Me saltaron F :'c\n");
 					else if(pararecibir[0] == 'X'){
 						col = pararecibir[1];
-						printf("Jugador 4: JAJA! te hicieron robaron 4\n");
+
 						strcpy(pararecibir,"None");
 					}
 					else if(pararecibir[2] == 'N'){
@@ -1352,7 +1393,7 @@ void jugando(){
 					else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 4: Me saltaron F :'c\n");
 					else if(pararecibir[0] == 'X'){
 						col = pararecibir[1];
-						printf("Jugador 4: JAJA! te hicieron robaron 4\n");
+
 						strcpy(pararecibir,"None");
 					}
 					else if(pararecibir[2] == 'N'){
