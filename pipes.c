@@ -176,7 +176,6 @@ void jugando(){
 							printf("Jugador 1: Me tiran un +%d y ademas no puedo jugar mi turno :c\n", mas);
 							strcpy(pararecibir, "SALTA");
 						}
-						else printf("Jugador 1: Jugador 4 me jugo %s\n",CJTA);
 					}
 
 					if(strcmp(CJTA,"SALTA") != 0 && CJTA[1] != '4'){
@@ -415,7 +414,7 @@ void jugando(){
 							printf("Jugador 1: Me tiran un +%d y ademas no puedo jugar mi turno :c\n", mas);
 							strcpy(pararecibir, "SALTA");
 						}
-						else printf("Jugador 1: Jugador 2 me jugo %s\n",CJTA);
+
 					}
 
 					if(strcmp(CJTA,"SALTA") != 0 && CJTA[1] != '4'){
@@ -505,6 +504,10 @@ void jugando(){
 									write(PaH3[1],paranegro,strlen(paranegro)+1);
 								}
 								else write(PaH3[1],carta,strlen(carta)+1);					
+							}
+							else if(CJTA[0]=='C'){
+								mover_mazoamano(carta,1);
+								write(PaH3[1],CJTA,strlen(CJTA));
 							}
 							else{
 								printf("Jugador 1: Ay no que mala pata! Robe %s\n",carta);
@@ -686,7 +689,7 @@ void jugando(){
 				if(strcmp(CJTA,"None") == 0) printf("Jugador 2: Cierto no jugo nada es mi oportunidad!\n");
 				else if(strcmp(CJTA,"SALTA") == 0) printf("Jugador 2: Oh no soy saltado!\n");
 				else if(col != 'z') printf("Jugador 2: Me cambiaron el color a %c\n",col);
-				else printf("Jugador 2: El jugador anterior me jugo %s\n",CJTA);
+
 				
 				
 				if(strcmp(CJTA,"SALTA") != 0 && CJTA[1] != '4'){
@@ -781,6 +784,10 @@ void jugando(){
 							}
 							else write(H1aP[1],carta,strlen(carta)+1);					
 						}
+						else if(CJTA[0]=='C'){
+								mover_mazoamano(carta,2);
+								write(H1aP[1],CJTA,strlen(CJTA));
+							}
 						else{
 							printf("Jugador 2: Ay no que mala pata! Robe %s\n",carta);
 							mover_mazoamano(carta,2);
@@ -919,7 +926,7 @@ void jugando(){
 				printf("Turno Jugador 3\n");
 				if(strcmp(CJTA,"None") == 0) printf("Jugador 3: Cierto no jugo nada es mi oportunidad!\n");
 				else if(strcmp(CJTA,"SALTA") == 0) printf("Jugador 3: Oh no soy saltado!\n");
-				else printf("Jugador 3: Jugador anterior me jugo %s\n",CJTA);
+
 				
 				if(strcmp(CJTA,"SALTA") != 0 && CJTA[1] != '4'){
 					printf("Jugador 3: Mmmmmmm que carta jugare ahora?\n");
@@ -1014,6 +1021,10 @@ void jugando(){
 							else write(H2aP[1],carta,strlen(carta)+1);	
 											
 						}
+						else if(CJTA[0]=='C'){
+								mover_mazoamano(carta,3);
+								write(H2aP[1],CJTA,strlen(CJTA));
+							}
 						else{
 							printf("Jugador 3: Ay no que mala pata! Robe %s\n",carta);
 							mover_mazoamano(carta,3);
@@ -1148,7 +1159,7 @@ void jugando(){
 				printf("\n");
 				printf("Turno Jugador 4\n");
 				if(strcmp(CJTA,"None") == 0) printf("Jugador 4: Cierto no jugo nada es mi oportunidad!\n");
-				else printf("Jugador 4: Ese **** me jugo %s\n",CJTA);
+
 
 				if(strcmp(CJTA,"SALTA") != 0 && CJTA[1] != '4'){
 					printf("Jugador 4: Mmmmmmm que carta jugare ahora?\n");
@@ -1243,6 +1254,10 @@ void jugando(){
 							}
 							else write(H3aP[1],carta,strlen(carta)+1);						
 						}
+						else if(CJTA[0]=='C'){
+								mover_mazoamano(carta,4);
+								write(H3aP[1],CJTA,strlen(CJTA));
+							}
 						else{
 							printf("Jugador 4: Ay no que mala pata! Robe %s\n",carta);
 							mover_mazoamano(carta,4);
