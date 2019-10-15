@@ -231,7 +231,8 @@ void jugando(){
 							{
 								printf("Jugador 1 parte recibiendo un +4 a la vena\n");
 								printf("Se parte con el color: %c\n",col);
-								strcpy(CJTA, "4");
+								strcpy(CJTA, "+4");
+								robarXCartas(1,4);
 							}
 							else printf("Se parte con el color: %c\n",col);
 						}
@@ -257,7 +258,7 @@ void jugando(){
 						if(col != 'z') printf("El color actual es %c\n", col);
 						scanf("%d",&j);
 
-						while(j < k && !(puedojugarla(cartas[j],col)))
+						while(k < j && !(puedojugarla(cartas[j],col)))
 						{
 							printf("Carta invalida, porfavor elegir otra carta\n");
 							k = print(cartas);
@@ -544,7 +545,8 @@ void jugando(){
 
 							if (poso[0][0] == '+')
 							{
-								strcpy(CJTA, "4");
+								strcpy(CJTA, "+4");
+								robarXCartas(1,4);
 							}
 						}
 						else if(poso[0][0] == '+')
@@ -571,7 +573,7 @@ void jugando(){
 						if(col != 'z') printf("El color actual es %c\n", col);
 						scanf("%d",&j);
 
-						while(j < k && !(puedojugarla(cartas[j],col)))
+						while(k < j && !(puedojugarla(cartas[j],col)))
 						{
 							printf("Carta invalida, porfavor elegir otra carta\n");
 							k = print(cartas);
@@ -865,7 +867,7 @@ void jugando(){
 					print(poso);
 					if(col != 'z') printf("El color actual es %c\n", col);
 					scanf("%d",&j);
-					while(j < k && !(puedojugarla(cartas[j],col)))
+					while(k < j && !(puedojugarla(cartas[j],col)))
 					{
 						printf("Carta invalida, porfavor elegir otra carta\n");
 						k = print(cartas);
@@ -1126,7 +1128,7 @@ void jugando(){
 					print(poso);
 					if(col != 'z') printf("El color actual es %c\n", col);
 					scanf("%d",&j);
-					while(j < k && !(puedojugarla(cartas[j],col)))
+					while(k < j && !(puedojugarla(cartas[j],col)))
 					{
 						printf("Carta invalida, porfavor elegir otra carta\n");
 						k = print(cartas);
@@ -1380,7 +1382,7 @@ void jugando(){
 					print(poso);
 					if(col != 'z') printf("El color actual es %c\n", col);
 					scanf("%d",&j);
-					while(j < k && !(puedojugarla(cartas[j],col)))
+					while(k < j && !(puedojugarla(cartas[j],col)))
 					{
 						if (j==109)break;
 						printf("Carta invalida, porfavor elegir otra carta\n");
