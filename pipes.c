@@ -129,7 +129,7 @@ void mover_manoapozo(char* carta, char* poso,int i){
 }
 
 void jugando(){
-	int p,i,j,k,direct=1,mas,boole=1;
+	int p,i,j,k,direct=1,mas,boole=1,inic;
 	char color;
 	char paranegro[30];
     char* carta;
@@ -158,8 +158,14 @@ void jugando(){
 	pipe(PaH2); //padre a H2
 	pipe(PaH3); //padre a H3
 	char turn[2];
-	p = creacionprocesos();
 
+	poso = obtenercartas("pozo");
+	if(poso[0][0]== 'R')
+	{
+		direct = 0;
+		printf("Se parte al revez\n"); 
+	}
+	p = creacionprocesos();
 	p = getpid();
 	if(p == turnos[0]){
 		char CJTA[18];
@@ -207,6 +213,32 @@ void jugando(){
 							robarXCartas(mas, 2);
 							printf("Jugador 1: Me tiran un +%d y ademas no puedo jugar mi turno :c\n", mas);
 							strcpy(pararecibir, "SALTA");
+						}
+					}
+
+					if (strcmp(CJTA, " ") == 0)
+					{
+						if (poso[0][2] == 'N')
+						{
+							inic = rand()%4;
+							if (inic == 0) col = 'R';
+							else if (inic == 1) col = 'B';
+							else if (inic == 2) col = 'G';
+							else col = 'Y';
+
+							if (poso[0][0] == '+')
+							{
+								strcpy(CJTA, "4");
+							}
+						}
+						else if(poso[0][0] == '+')
+						{
+							robarXCartas(2,1);
+							strcpy(CJTA,"SALTA");
+						}
+						else if(poso[0][0] == 'S')
+						{
+							strcpy(CJTA, "SALTA");
 						}
 					}
 
@@ -359,7 +391,6 @@ void jugando(){
 				else if (i%4 == 1){
 					while((read(H1aP[0],pararecibir,100))<0);
 					if(strcmp(pararecibir,"None") == 0) printf("Jugador 1: Te salvaste jugador 3 el jugador 2 no jugo nada xd\n");
-					if(pararecibir[0] == 'F') break;
 					else if(strcmp(pararecibir,"7") == 0){
 						printf("Jugador 1: CAMBIARON EL SENTIDO DEL JUEGO!\n");
 						direct = 0;
@@ -476,10 +507,6 @@ void jugando(){
 			}
 			else
 			{
-				printf("%d\n", cantmano(1));
-				printf("%d\n", cantmano(2));
-				printf("%d\n", cantmano(3));
-				printf("%d\n", cantmano(4));
 				if(i%4 == 0){
 					cartas = obtenercartas("mano1");
 					poso = obtenercartas("pozo");
@@ -497,6 +524,36 @@ void jugando(){
 							strcpy(pararecibir, "SALTA");
 						}
 
+					}
+
+					if (strcmp(CJTA, " ") == 0)
+					{
+						if (poso[0][2] == 'N')
+						{
+							inic = rand()%4;
+							if (inic == 0) col = 'R';
+							else if (inic == 1) col = 'B';
+							else if (inic == 2) col = 'G';
+							else col = 'Y';
+
+							if (poso[0][0] == '+')
+							{
+								strcpy(CJTA, "4");
+							}
+						}
+						else if(poso[0][0] == '+')
+						{
+							robarXCartas(2,1);
+							strcpy(CJTA,"SALTA");
+						}
+						else if(poso[0][0] == 'S')
+						{
+							strcpy(CJTA, "SALTA");
+						}
+						else if(poso[0][0] == 'R')
+						{
+							strcpy(CJTA, "7");
+						}
 					}
 
 					if(strcmp(CJTA,"SALTA") != 0 && CJTA[1] != '4'){
