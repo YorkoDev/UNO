@@ -3,6 +3,8 @@ run: jugar
 
 clean:
 	rm main.o juego.o archivos.o pipes.o jugar archivos.h.gch juego.h.gch pipes.h.gch
+
+clear-file:
 	rm -rf mazo
 	rm -rf mano1
 	rm -rf mano2

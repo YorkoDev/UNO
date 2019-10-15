@@ -36,11 +36,12 @@ int puedojugarla(char* carta, char color)
 			}
 		}
 	}
+	closedir(d);
 
 	if(temp[0] == 'S')
 	{
 		if(carta[0] == 'S') return 1;
-		else if(carta[0] == 'R') return carta[4] == temp[4];
+		else if(carta[0] == 'R') return carta[3] == temp[4];
 		else if(carta[1] == '2') return carta[2] == temp[4];
 		else if(carta[2] != 'N') return carta[1] == temp[4];
 		else return 1;
@@ -71,7 +72,7 @@ int puedojugarla(char* carta, char color)
 		if(carta[0] == 'S') return carta[4] == temp[1];
 		else if(carta[0] == 'R') return carta[3] == temp[1];	
 		else if(carta[1] == '2') return carta[2] == temp[1];
-		else if(carta[2] != 'N') return carta[1] == temp[1];
+		else if(carta[2] != 'N') return carta[1] == temp[1] || carta[0] == temp[0];
 		else return 1;
 	}
 
