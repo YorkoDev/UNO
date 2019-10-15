@@ -1003,7 +1003,7 @@ void jugando(){
 			{ 
 				while((read(PaH1[0],pararecibir,100))<0);
 				if(pararecibir[0] == 'F') break;
-				else if(pararecibir[0] != '7'){
+				else if(strcmp(pararecibir,"7") == 0){
 					if(strcmp(pararecibir,"None") == 0) printf("Jugador 2: NO JUGO NADA VIVA CHILE\n");
 					else if(strcmp(pararecibir,"SALTA") == 0) printf("Jugador 2: Me saltaron F :c\n");
 					else if(pararecibir[0] == 'X'){
