@@ -400,6 +400,7 @@ void jugando(){
 					if(strcmp(pararecibir,"None") == 0) printf("Jugador 1: Te salvaste jugador 3 el jugador 2 no jugo nada xd\n");
 					else if(strcmp(pararecibir,"7") == 0){
 						printf("Jugador 1: CAMBIARON EL SENTIDO DEL JUEGO!\n");
+						strcpy(CJTA," ");
 						direct = 0;
 						write(PaH2[1],pararecibir,strlen(pararecibir)+1);
 						write(PaH3[1],pararecibir,strlen(pararecibir)+1);
@@ -432,6 +433,7 @@ void jugando(){
 					if(strcmp(pararecibir,"None") == 0) printf("Jugador 1: Te salvaste Jugador 4 el jugador 3 no jugo nada xd\n");
 					else if(strcmp(pararecibir,"7") == 0){
 						printf("Jugador 1: CAMBIARON EL SENTIDO DEL JUEGO!\n");
+						strcpy(CJTA," ");
 						direct = 0;
 						write(PaH1[1],pararecibir,strlen(pararecibir)+1);
 						write(PaH3[1],pararecibir,strlen(pararecibir)+1);
@@ -469,6 +471,7 @@ void jugando(){
 					}
 					else if(strcmp(pararecibir,"7") == 0){
 						printf("Jugador 1: CAMBIARON EL SENTIDO DEL JUEGO!\n");
+						strcpy(CJTA," ");
 						direct = 0;
 						write(PaH1[1],pararecibir,strlen(pararecibir)+1);
 						write(PaH2[1],pararecibir,strlen(pararecibir)+1);
@@ -707,6 +710,7 @@ void jugando(){
 					if(strcmp(pararecibir,"None") == 0) printf("Jugador 1: ME SALVE!!!!\n");
 					else if(strcmp(pararecibir,"7") == 0){
 						printf("Jugador 1: CAMBIARON EL SENTIDO DEL JUEGO!\n");
+						strcpy(CJTA," ");
 						direct = 1;
 						write(PaH2[1],pararecibir,strlen(pararecibir)+1);
 						write(PaH3[1],pararecibir,strlen(pararecibir)+1);
@@ -753,6 +757,7 @@ void jugando(){
 					if(strcmp(pararecibir,"None") == 0) printf("Jugador 1: Te salvaste Jugador 2 el jugador 3 no jugo nada xd\n");
 					else if(strcmp(pararecibir,"7") == 0){
 						printf("Jugador 1: CAMBIARON EL SENTIDO DEL JUEGO!\n");
+						strcpy(CJTA," ");
 						direct = 1;
 						write(PaH1[1],pararecibir,strlen(pararecibir)+1);
 						write(PaH3[1],pararecibir,strlen(pararecibir)+1);
@@ -779,6 +784,7 @@ void jugando(){
 					if(strcmp(pararecibir,"None") == 0) printf("Jugador 1: Te salvaste jugador 3 el jugador 4 no jugo nada xd\n");
 					else if(strcmp(pararecibir,"7") == 0){
 						printf("Jugador 1: CAMBIARON EL SENTIDO DEL JUEGO!\n");
+						strcpy(CJTA," ");
 						direct = 1;
 						write(PaH1[1],pararecibir,strlen(pararecibir)+1);
 						write(PaH2[1],pararecibir,strlen(pararecibir)+1);
@@ -982,7 +988,7 @@ void jugando(){
 
 							char None[5];
 							strcpy(None,"None");
-							printf("None %s\n",None);
+							
 							write(H1aP[1],None,5);
 						}
 						free(carta);
@@ -1034,6 +1040,7 @@ void jugando(){
 					strcpy(CJTA,pararecibir);
 				}else{
 					printf("Jugador 2: CAMBIARON EL SENTIDO DEL JUEGO AAAAA \n");
+					strcpy(CJTA," ");
 					direct = 0;
 				}
 			}
@@ -1072,6 +1079,7 @@ void jugando(){
 					strcpy(CJTA,pararecibir);
 				}else{
 					printf("Jugador 2: CAMBIARON EL SENTIDO DEL JUEGO AAAAA \n");
+					strcpy(CJTA," ");
 					direct = 1;
 				}
 			}
@@ -1240,7 +1248,7 @@ void jugando(){
 
 							char None[5];
 							strcpy(None,"None");
-							printf("None %s\n",None);
+							
 							write(H2aP[1],None,5);
 						}
 						free(carta);
@@ -1291,6 +1299,8 @@ void jugando(){
 					strcpy(CJTA,pararecibir);
 				}else{
 					printf("Jugador 3: CAMBIARON EL SENTIDO DEL JUEGO AAAAA \n");
+					strcpy(CJTA," ");
+				
 					direct = 0;
 				}
 			}
@@ -1328,6 +1338,7 @@ void jugando(){
 					strcpy(CJTA,pararecibir);
 				}else{
 					printf("Jugador 3: CAMBIARON EL SENTIDO DEL JUEGO AAAAA \n");
+					strcpy(CJTA," ");
 					direct = 1;
 				}
 			}
@@ -1495,7 +1506,7 @@ void jugando(){
 							mover_mazoamano(carta,4);
 							char None[5];
 							strcpy(None,"None");
-							printf("None %s\n",None);
+							
 							write(H3aP[1],None,5);
 						}
 						free(carta);
@@ -1546,6 +1557,7 @@ void jugando(){
 					strcpy(CJTA,pararecibir);
 				}else{
 					printf("Jugador 4: CAMBIARON EL SENTIDO DEL JUEGO AAAAA \n");
+					strcpy(CJTA," ");
 					direct = 0;
 				}
 			}
@@ -1583,6 +1595,7 @@ void jugando(){
 					strcpy(CJTA,pararecibir);
 				}else{
 					printf("Jugador 4: CAMBIARON EL SENTIDO DEL JUEGO AAAAA \n");
+					strcpy(CJTA," ");
 					direct = 1;
 				}
 			}	
