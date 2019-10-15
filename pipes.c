@@ -165,6 +165,7 @@ void jugando(){
 		direct = 0;
 		printf("Se parte al revez\n"); 
 	}
+	liberarmemoria(poso);
 	p = creacionprocesos();
 	p = getpid();
 	if(p == turnos[0]){
@@ -228,16 +229,21 @@ void jugando(){
 
 							if (poso[0][0] == '+')
 							{
+								printf("Jugador 1 parte recibiendo un +4 a la vena\n");
+								printf("Se parte con el color: %c\n",col);
 								strcpy(CJTA, "4");
 							}
+							else printf("Se parte con el color: %c\n",col);
 						}
 						else if(poso[0][0] == '+')
 						{
 							robarXCartas(2,1);
+							printf("Jugador 1 parte recibiendo un +2 a la vena\n");
 							strcpy(CJTA,"SALTA");
 						}
 						else if(poso[0][0] == 'S')
 						{
+							printf("Jugador 1 parte siendo skipeado (saltado)\n");
 							strcpy(CJTA, "SALTA");
 						}
 					}
