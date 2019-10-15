@@ -258,7 +258,7 @@ void jugando(){
 						if(col != 'z') printf("El color actual es %c\n", col);
 						scanf("%d",&j);
 
-						while(k < j && !(puedojugarla(cartas[j],col)))
+						while(k < j && j != 109 && !(puedojugarla(cartas[j],col)))
 						{
 							printf("Carta invalida, porfavor elegir otra carta\n");
 							k = print(cartas);
@@ -573,7 +573,7 @@ void jugando(){
 						if(col != 'z') printf("El color actual es %c\n", col);
 						scanf("%d",&j);
 
-						while(k < j && !(puedojugarla(cartas[j],col)))
+						while(k < j && j != 109 && !(puedojugarla(cartas[j],col)))
 						{
 							printf("Carta invalida, porfavor elegir otra carta\n");
 							k = print(cartas);
@@ -867,7 +867,7 @@ void jugando(){
 					print(poso);
 					if(col != 'z') printf("El color actual es %c\n", col);
 					scanf("%d",&j);
-					while(k < j && !(puedojugarla(cartas[j],col)))
+					while(k < j && j != 109 && !(puedojugarla(cartas[j],col)))
 					{
 						printf("Carta invalida, porfavor elegir otra carta\n");
 						k = print(cartas);
@@ -1128,7 +1128,7 @@ void jugando(){
 					print(poso);
 					if(col != 'z') printf("El color actual es %c\n", col);
 					scanf("%d",&j);
-					while(k < j && !(puedojugarla(cartas[j],col)))
+					while(k < j && j != 109 && !(puedojugarla(cartas[j],col)))
 					{
 						printf("Carta invalida, porfavor elegir otra carta\n");
 						k = print(cartas);
@@ -1382,7 +1382,7 @@ void jugando(){
 					print(poso);
 					if(col != 'z') printf("El color actual es %c\n", col);
 					scanf("%d",&j);
-					while(k < j && !(puedojugarla(cartas[j],col)))
+					while(k < j && j != 109 && !(puedojugarla(cartas[j],col)))
 					{
 						if (j==109)break;
 						printf("Carta invalida, porfavor elegir otra carta\n");
