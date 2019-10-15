@@ -366,7 +366,7 @@ void jugando(){
 								char pal[30];
 								strcpy(pal,"X");
 								pal[1] = col;
-								printf("%s\n",pal);
+								
 								write(PaH1[1],pal, strlen(pal)+1);
 							}
 							else
@@ -386,7 +386,7 @@ void jugando(){
 						char pal[30];
 						strcpy(pal,"X");
 						pal[1] = CJTA[8];
-						printf("%s\n",pal);
+						
 						write(PaH1[1],pal, strlen(pal)+1);
 					}
 					else if(strcmp(CJTA,"SALTA") == 0) write(PaH1[1],"None",8);
@@ -674,7 +674,7 @@ void jugando(){
 								char pal[30];
 								strcpy(pal,"X");
 								pal[1] = col;
-								printf("%s\n",pal);
+								
 								write(PaH3[1],pal, strlen(pal)+1);
 							}
 							else{
@@ -972,7 +972,7 @@ void jugando(){
 								char pal[30];
 								strcpy(pal,"X");
 								pal[1] = col;
-								printf("%s\n",pal);
+								
 								write(H1aP[1],pal, strlen(pal)+1);
 							}
 	
@@ -1231,7 +1231,7 @@ void jugando(){
 								char pal[30];
 								strcpy(pal,"X");
 								pal[1] = col;
-								printf("%s\n",pal);
+								
 								write(H2aP[1],pal, strlen(pal)+1);
 							}
 						else{
@@ -1487,7 +1487,7 @@ void jugando(){
 							char pal[30];
 							strcpy(pal,"X");
 							pal[1] = col;
-							printf("%s\n",pal);
+							
 							write(H3aP[1],pal, strlen(pal)+1);
 						}
 						else{
